@@ -1,0 +1,83 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 22 28% 13%;
+    --muted: 30 15% 95%;
+    --muted-foreground: 25 13% 37%;
+    --border: 32 25% 88%;
+    --ring: 25 47% 28%;
+    --radius: 0.75rem;
+  }
+
+  * {
+    border-color: hsl(var(--border));
+  }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background-color: hsl(var(--background));
+    color: hsl(var(--foreground));
+    font-feature-settings: "rlig" 1, "calt" 1;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-serif), Georgia, serif;
+    color: theme("colors.brand.900");
+    letter-spacing: -0.01em;
+  }
+}
+
+@layer components {
+  .container-tight {
+    @apply mx-auto w-full max-w-6xl px-4 sm:px-6;
+  }
+
+  .section {
+    @apply py-14 sm:py-20;
+  }
+
+  .section-heading {
+    @apply text-3xl sm:text-4xl font-semibold text-brand-900;
+  }
+
+  .section-subheading {
+    @apply mt-3 text-base sm:text-lg text-ink-muted max-w-2xl;
+  }
+
+  .prose-shop {
+    @apply text-ink leading-relaxed;
+  }
+
+  .prose-shop p {
+    @apply mb-3;
+  }
+
+  .prose-shop ul {
+    @apply list-disc pl-5 mb-3 space-y-1;
+  }
+
+  .prose-shop h2 {
+    @apply text-2xl font-semibold mt-6 mb-3;
+  }
+
+  .prose-shop h3 {
+    @apply text-xl font-semibold mt-5 mb-2;
+  }
+
+  .prose-shop a {
+    @apply text-leaf-700 underline underline-offset-2 hover:text-leaf-500;
+  }
+}
