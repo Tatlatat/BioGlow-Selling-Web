@@ -10,9 +10,15 @@ export const siteConfig = {
   url: "https://bioglowvn.example.com",
 
   contact: {
-    phone: "0373478587",
-    phoneDisplay: "0373 478 587",
-    zalo: "0373478587",
+    /**
+     * Danh sách sđt — vừa làm hotline (gọi qua `tel:`), vừa làm Zalo.
+     * `phones[0]` là sđt chính, hiển thị ở header & nút Zalo trang sản phẩm.
+     * Toàn bộ sđt được hiển thị ở footer và trang /lien-he.
+     */
+    phones: [
+      { tel: "0373478587", display: "0373 478 587" },
+      { tel: "0346009569", display: "0346 009 569" },
+    ],
     email: "",
     facebook: "",
     workingHours: "8:00 - 22:00 hằng ngày",

@@ -20,8 +20,9 @@ const navLinks: ReadonlyArray<{ href: string; label: string }> = [
 
 export function Header(): React.ReactElement {
   const [open, setOpen] = React.useState(false);
-  const zaloUrl = buildZaloOrderLink(siteConfig.contact.zalo);
-  const telUrl = buildTelLink(siteConfig.contact.phone);
+  const primaryPhone = siteConfig.contact.phones[0];
+  const zaloUrl = buildZaloOrderLink(primaryPhone.tel);
+  const telUrl = buildTelLink(primaryPhone.tel);
 
   return (
     <header className="sticky top-0 z-40 w-full border-b border-brand-100 bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/80">
@@ -56,7 +57,7 @@ export function Header(): React.ReactElement {
           <Button variant="ghost" size="sm" asChild>
             <a href={telUrl} className="text-brand-700">
               <Phone className="h-4 w-4" />
-              {siteConfig.contact.phoneDisplay}
+              {primaryPhone.display}
             </a>
           </Button>
           <Button variant="warm" size="sm" asChild>

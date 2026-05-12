@@ -7,7 +7,7 @@ import { buildTelLink, buildZaloOrderLink } from "@/lib/utils";
 
 export const metadata: Metadata = {
   title: "Liên hệ",
-  description: `Liên hệ ${siteConfig.name} để được tư vấn miễn phí về sản phẩm thiên nhiên. Hotline: ${siteConfig.contact.phoneDisplay}.`,
+  description: `Liên hệ ${siteConfig.name} để được tư vấn miễn phí về sản phẩm thiên nhiên. Hotline: ${siteConfig.contact.phones.map((p) => p.display).join(" / ")}.`,
 };
 
 type IconComponent = React.ComponentType<{ className?: string }>;
@@ -20,19 +20,20 @@ type ContactItem = {
 };
 
 export default function ContactPage(): React.ReactElement {
+  const phones = siteConfig.contact.phones;
   const contacts: ContactItem[] = [
-    {
+    ...phones.map((p, idx) => ({
       icon: Phone,
-      label: "Điện thoại",
-      value: siteConfig.contact.phoneDisplay,
-      href: buildTelLink(siteConfig.contact.phone),
-    },
-    {
+      label: phones.length > 1 ? `Hotline ${idx + 1}` : "Điện thoại",
+      value: p.display,
+      href: buildTelLink(p.tel),
+    })),
+    ...phones.map((p, idx) => ({
       icon: ZaloIcon,
-      label: "Zalo",
-      value: siteConfig.contact.phoneDisplay,
-      href: buildZaloOrderLink(siteConfig.contact.zalo),
-    },
+      label: phones.length > 1 ? `Zalo ${idx + 1}` : "Zalo",
+      value: p.display,
+      href: buildZaloOrderLink(p.tel),
+    })),
     {
       icon: Clock,
       label: "Giờ làm việc",

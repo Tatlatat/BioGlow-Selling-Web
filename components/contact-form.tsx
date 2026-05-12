@@ -23,8 +23,9 @@ export function ContactForm(): React.ReactElement {
 
     if (!targetEmail) {
       const zaloMessage = `Tên: ${name}\nSĐT: ${phone}\nNội dung: ${message}`;
+      const primaryZalo = siteConfig.contact.phones[0].tel;
       window.open(
-        `https://zalo.me/${siteConfig.contact.zalo}?text=${encodeURIComponent(zaloMessage)}`,
+        `https://zalo.me/${primaryZalo}?text=${encodeURIComponent(zaloMessage)}`,
         "_blank",
         "noopener,noreferrer"
       );

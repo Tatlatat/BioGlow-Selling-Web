@@ -7,8 +7,7 @@ import { buildTelLink, buildZaloOrderLink } from "@/lib/utils";
 
 export function Footer(): React.ReactElement {
   const year = new Date().getFullYear();
-  const zaloUrl = buildZaloOrderLink(siteConfig.contact.zalo);
-  const telUrl = buildTelLink(siteConfig.contact.phone);
+  const phones = siteConfig.contact.phones;
 
   return (
     <footer className="mt-20 bg-brand-700 text-brand-50">
@@ -66,23 +65,27 @@ export function Footer(): React.ReactElement {
         <div>
           <h4 className="font-semibold text-white">Liên hệ</h4>
           <ul className="mt-3 space-y-3 text-sm">
-            <li className="flex items-start gap-2">
-              <Phone className="h-4 w-4 mt-0.5 shrink-0" />
-              <a href={telUrl} className="hover:text-white">
-                {siteConfig.contact.phoneDisplay}
-              </a>
-            </li>
-            <li className="flex items-start gap-2">
-              <ZaloIcon className="h-4 w-4 mt-0.5 shrink-0" />
-              <a
-                href={zaloUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="hover:text-white"
-              >
-                Zalo: {siteConfig.contact.phoneDisplay}
-              </a>
-            </li>
+            {phones.map((p) => (
+              <li key={`tel-${p.tel}`} className="flex items-start gap-2">
+                <Phone className="h-4 w-4 mt-0.5 shrink-0" />
+                <a href={buildTelLink(p.tel)} className="hover:text-white">
+                  {p.display}
+                </a>
+              </li>
+            ))}
+            {phones.map((p) => (
+              <li key={`zalo-${p.tel}`} className="flex items-start gap-2">
+                <ZaloIcon className="h-4 w-4 mt-0.5 shrink-0" />
+                <a
+                  href={buildZaloOrderLink(p.tel)}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:text-white"
+                >
+                  Zalo: {p.display}
+                </a>
+              </li>
+            ))}
             <li className="flex items-start gap-2">
               <Clock className="h-4 w-4 mt-0.5 shrink-0" />
               <span>{siteConfig.contact.workingHours}</span>
