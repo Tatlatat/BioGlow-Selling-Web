@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
-import { ImageOff } from "lucide-react";
+import { ImageOff, Check } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { getCategory } from "@/data/categories";
 import { type Product } from "@/data/products";
@@ -37,6 +37,14 @@ export function ProductCard({ product }: Props): React.ReactElement {
         <Badge variant="leaf" className="absolute left-3 top-3">
           {category.shortName}
         </Badge>
+        {product.bestseller && (
+          <Badge
+            variant="warm"
+            className="absolute right-3 top-3 bg-warm-red text-white border-warm-red shadow-sm"
+          >
+            Bán chạy
+          </Badge>
+        )}
       </div>
 
       <div className="flex flex-1 flex-col p-4">
@@ -44,7 +52,23 @@ export function ProductCard({ product }: Props): React.ReactElement {
           {product.name}
         </h3>
         <p className="mt-1 text-sm text-ink-muted">{product.subtitle}</p>
-        <p className="mt-2 text-sm text-ink line-clamp-2">{product.shortDesc}</p>
+        {product.benefits && product.benefits.length > 0 ? (
+          <ul className="mt-3 space-y-1.5">
+            {product.benefits.slice(0, 3).map((benefit) => (
+              <li
+                key={benefit}
+                className="flex items-start gap-1.5 text-sm text-ink"
+              >
+                <Check className="mt-0.5 h-4 w-4 shrink-0 text-leaf-600" />
+                <span className="leading-snug">{benefit}</span>
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <p className="mt-2 text-sm text-ink line-clamp-2">
+            {product.shortDesc}
+          </p>
+        )}
         <div className="mt-auto pt-3 flex items-center justify-between">
           {product.price !== null ? (
             <span className="font-semibold text-warm-red text-lg">

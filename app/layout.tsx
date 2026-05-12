@@ -4,6 +4,7 @@ import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
+import { FloatingZalo } from "@/components/floating-zalo";
 import { siteConfig } from "@/data/site-config";
 
 import "./globals.css";
@@ -67,6 +68,7 @@ export default function RootLayout({
         <Header />
         <main className="flex-1">{children}</main>
         <Footer />
+        <FloatingZalo />
         <Analytics />
         <SpeedInsights />
       </body>

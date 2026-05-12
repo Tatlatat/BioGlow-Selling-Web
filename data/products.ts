@@ -21,6 +21,10 @@ export type Product = {
   images: string[];
   /** Hiển thị trên trang chủ. */
   featured?: boolean;
+  /** Gắn badge "Bán chạy" trên card. Độc lập với `featured`. */
+  bestseller?: boolean;
+  /** 2-3 bullet công dụng chính, mỗi bullet ≤40 ký tự. Hiển thị trên card. */
+  benefits?: string[];
   tags?: string[];
 };
 
@@ -76,6 +80,12 @@ export const products: readonly Product[] = [
     price: 407455,
     images: ["/products/caphelink-new/1.jpg"],
     featured: true,
+    bestseller: true,
+    benefits: [
+      "Cà phê thơm ngon kết hợp thảo dược quý",
+      "Bổ sung Hoàng kỳ, Deltaimmune và selen",
+      "Pha nhanh, dùng nóng hoặc đá",
+    ],
     tags: ["cà phê", "thảo dược", "tiện lợi"],
   },
   {
@@ -94,6 +104,12 @@ export const products: readonly Product[] = [
     warning: STANDARD_FOOD_WARNING,
     price: 652909,
     images: ["/products/vhealth-chocolate/1.jpg"],
+    bestseller: true,
+    benefits: [
+      "Hương socola đậm đà, dễ uống",
+      "Bổ sung vitamin, khoáng chất và thảo dược quý",
+      "Gói 25g tiện lợi cho người bận rộn",
+    ],
     tags: ["socola", "bữa phụ", "gói tiện lợi"],
   },
   {
@@ -112,6 +128,12 @@ export const products: readonly Product[] = [
     warning: STANDARD_FOOD_WARNING,
     price: 652909,
     images: ["/products/vhealth-tra-xanh/1.jpg"],
+    bestseller: true,
+    benefits: [
+      "Vị matcha thanh mát, hậu vị sữa dịu",
+      "Kết hợp thảo dược và ngũ cốc dinh dưỡng",
+      "Thay thế bữa phụ tiện lợi và đủ chất",
+    ],
     tags: ["trà xanh", "matcha", "ngũ cốc"],
   },
   {
@@ -374,6 +396,12 @@ export const products: readonly Product[] = [
     price: 176727,
     images: ["/products/vsmile-kem-danh-rang/1.jpg"],
     featured: true,
+    bestseller: true,
+    benefits: [
+      "Nano canxi giúp bảo vệ và phục hồi men răng",
+      "Chiết xuất neem ngừa viêm và chảy máu nướu",
+      "Hơi thở thơm mát, không gây cay rát",
+    ],
     tags: ["nano canxi", "neem", "răng miệng"],
   },
   {
