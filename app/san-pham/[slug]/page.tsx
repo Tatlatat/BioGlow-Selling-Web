@@ -61,7 +61,9 @@ export default async function ProductDetailPage({
       {/* JSON-LD for Google rich result */}
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c"),
+        }}
       />
 
       <section className="bg-brand-50 border-b border-brand-100">

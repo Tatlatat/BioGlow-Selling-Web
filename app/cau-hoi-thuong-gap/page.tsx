@@ -33,7 +33,9 @@ export default function FaqPage(): React.ReactElement {
     <div>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(faqJsonLd).replace(/</g, "\\u003c"),
+        }}
       />
 
       <section className="bg-brand-50 border-b border-brand-100">
