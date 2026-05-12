@@ -1,6 +1,7 @@
 "use client";
 
 import * as React from "react";
+import Image from "next/image";
 import Link from "next/link";
 import { Menu, X, Phone } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -26,6 +27,14 @@ export function Header(): React.ReactElement {
     <header className="sticky top-0 z-40 w-full border-b border-brand-100 bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/80">
       <div className="container-tight flex h-16 items-center justify-between">
         <Link href="/" className="flex items-center gap-2" onClick={() => setOpen(false)}>
+          <Image
+            src="/logo.jpg"
+            alt={`${siteConfig.name} logo`}
+            width={40}
+            height={40}
+            className="h-10 w-10 rounded-md object-contain"
+            priority
+          />
           <span className="font-serif text-2xl font-semibold tracking-tight text-brand-700">
             {siteConfig.name}
           </span>

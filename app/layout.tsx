@@ -23,7 +23,7 @@ const fontSerif = Lora({
 });
 
 export const viewport: Viewport = {
-  themeColor: "#6B4226",
+  themeColor: "#1E3A8A",
   width: "device-width",
   initialScale: 1,
 };

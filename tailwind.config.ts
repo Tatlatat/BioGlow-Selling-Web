@@ -18,14 +18,14 @@ const config: Config = {
     extend: {
       colors: {
         brand: {
-          DEFAULT: "#6B4226",
-          50: "#FAF6F1",
-          100: "#F5EFE6",
-          200: "#E8D9C5",
-          500: "#8B5A36",
-          600: "#6B4226",
-          700: "#52301A",
-          900: "#2A1F17",
+          DEFAULT: "#1E3A8A",
+          50: "#F0F4FB",
+          100: "#DBE4F5",
+          200: "#B6C8EB",
+          500: "#3B5BC7",
+          600: "#1E3A8A",
+          700: "#142966",
+          900: "#0B1A3D",
         },
         leaf: {
           DEFAULT: "#3F6B43",
@@ -43,8 +43,8 @@ const config: Config = {
           "red-dark": "#963829",
         },
         ink: {
-          DEFAULT: "#2A1F17",
-          muted: "#6B5B4F",
+          DEFAULT: "#0F1626",
+          muted: "#4A5468",
         },
       },
       fontFamily: {
@@ -59,9 +59,9 @@ const config: Config = {
         xl: "1rem",
       },
       boxShadow: {
-        card: "0 1px 3px rgba(42, 31, 23, 0.06), 0 1px 2px rgba(42, 31, 23, 0.04)",
+        card: "0 1px 3px rgba(15, 22, 38, 0.06), 0 1px 2px rgba(15, 22, 38, 0.04)",
         "card-hover":
-          "0 10px 25px -10px rgba(107, 66, 38, 0.18), 0 4px 10px -3px rgba(107, 66, 38, 0.10)",
+          "0 10px 25px -10px rgba(30, 58, 138, 0.18), 0 4px 10px -3px rgba(30, 58, 138, 0.10)",
       },
       keyframes: {
         "fade-in": {
