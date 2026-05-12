@@ -148,7 +148,7 @@ export const products: readonly Product[] = [
       "Uống trực tiếp ngay khi mở nắp. Đóng kín nắp sau mỗi lần dùng. Khuyến nghị sử dụng trong vòng 4 giờ sau khi mở nắp để đảm bảo chất lượng.",
     warning: STANDARD_FOOD_WARNING,
     price: 780545,
-    images: [],
+    images: ["/products/hydrogen-quantum/1.jpg"],
     tags: ["hydrogen", "nước uống", "hằng ngày"],
   },
   // ============ HỖ TRỢ SỨC KHOẺ ============
@@ -188,7 +188,7 @@ export const products: readonly Product[] = [
       "Ngày dùng 2-4 gói, chia 2 lần. Uống sau bữa ăn 1 giờ. Pha với nước lọc hoặc dùng trực tiếp.",
     warning: STANDARD_FOOD_WARNING,
     price: 8826545,
-    images: [],
+    images: ["/products/vtopcan/1.jpg"],
     tags: ["fucoidan", "đề kháng", "cao cấp"],
   },
   {
@@ -206,7 +206,7 @@ export const products: readonly Product[] = [
       "Uống 2-3 viên/ngày, chia 2-3 lần. Uống trước bữa ăn 30 phút hoặc sau ăn 1 giờ. Khuyến nghị dùng liên tục 1-3 tháng.",
     warning: STANDARD_FOOD_WARNING,
     price: 765818,
-    images: [],
+    images: ["/products/man-link-max/1.jpg"],
     tags: ["nam giới", "bổ thận", "sinh lực"],
   },
   {
@@ -224,7 +224,7 @@ export const products: readonly Product[] = [
       "Uống 1 viên/lần x 1-3 lần/ngày. Uống khi đói: sau ăn 2 giờ hoặc trước ăn 30 phút. Uống nguyên viên.",
     warning: STANDARD_FOOD_WARNING,
     price: 495818,
-    images: [],
+    images: ["/products/mindenergy-max/1.jpg"],
     tags: ["trí nhớ", "não bộ", "DHA"],
   },
   {
@@ -242,7 +242,7 @@ export const products: readonly Product[] = [
       "Trẻ 3-4 tuổi: 1 gói x 1-2 lần/ngày. Trẻ 5-9 tuổi: 1 gói x 2-3 lần/ngày. Trẻ 10 tuổi trở lên: 2 gói x 2 lần/ngày. Pha với nước hoặc sữa, uống trước bữa ăn 30 phút hoặc sau ăn 1 giờ.",
     warning: STANDARD_FOOD_WARNING,
     price: 505636,
-    images: [],
+    images: ["/products/kidsmune-max/1.jpg"],
     tags: ["trẻ em", "đề kháng", "tiêu hoá"],
   },
   {
@@ -262,7 +262,7 @@ export const products: readonly Product[] = [
       STANDARD_FOOD_WARNING +
       " Không dùng cho người rối loạn đông máu, trước và sau phẫu thuật, phụ nữ kinh nguyệt nhiều.",
     price: 519382,
-    images: [],
+    images: ["/products/cardiopro-max/1.jpg"],
     tags: ["tim mạch", "mỡ máu", "Đan sâm"],
   },
   {
@@ -280,7 +280,7 @@ export const products: readonly Product[] = [
       "Uống 1 viên/lần x 1-2 lần/ngày. Uống trước bữa ăn 30 phút hoặc sau ăn 1 giờ. Nên dùng liên tục 3-6 tháng.",
     warning: STANDARD_FOOD_WARNING,
     price: 584182,
-    images: [],
+    images: ["/products/detoxmune-max/1.jpg"],
     tags: ["bảo vệ gan", "giải độc", "Alpha Lipoic"],
   },
   {
@@ -298,7 +298,7 @@ export const products: readonly Product[] = [
       "Ngày dùng 2-4 viên, chia 2 lần. Uống trước bữa ăn 30 phút hoặc sau ăn 1 giờ. Nên dùng liên tục 3-6 tháng. Bảo quản nơi khô mát dưới 30°C, tránh ánh nắng trực tiếp.",
     warning: STANDARD_FOOD_WARNING,
     price: 520363,
-    images: [],
+    images: ["/products/genecel-max/1.jpg"],
     tags: ["chống oxy hoá", "lão hoá", "đề kháng"],
   },
   {
@@ -318,7 +318,7 @@ export const products: readonly Product[] = [
       STANDARD_FOOD_WARNING +
       " Tránh dùng nếu mẫn cảm với bất kỳ thành phần nào của sản phẩm.",
     price: 441818,
-    images: [],
+    images: ["/products/lacttocol-max/1.jpg"],
     tags: ["tiêu hoá", "đại tràng", "Bạch truật"],
   },
   {
@@ -336,7 +336,7 @@ export const products: readonly Product[] = [
       "Ngày dùng 2-4 viên, chia 2 lần. Uống trước bữa ăn 30 phút hoặc sau ăn 1 giờ. Nên dùng liên tục 3-6 tháng.",
     warning: STANDARD_FOOD_WARNING,
     price: 530182,
-    images: [],
+    images: ["/products/jointlink-max/1.jpg"],
     tags: ["xương khớp", "thoái hoá", "Nghệ"],
   },
   {
@@ -354,7 +354,7 @@ export const products: readonly Product[] = [
       "Liều tăng cường: 4-6 viên/ngày, chia 2 lần. Liều duy trì: 2-4 viên/ngày, chia 2 lần. Uống trước bữa ăn 30 phút hoặc cùng bữa ăn. Nên dùng liên tục 1-3 tháng.",
     warning: STANDARD_FOOD_WARNING,
     price: 832582,
-    images: [],
+    images: ["/products/bach-xuan/1.jpg"],
     tags: ["phụ nữ", "nội tiết tố", "mãn kinh"],
   },
   // ============ THIẾT YẾU ============
@@ -390,7 +390,7 @@ export const products: readonly Product[] = [
     usage:
       "Làm tóc ướt, thoa đều dầu gội lên tóc và da đầu, massage nhẹ nhàng, gội sạch với nước. Nên gội lại lần 2 để tóc và da đầu sạch hơn. Khuyên dùng hằng ngày.",
     price: 481091,
-    images: [],
+    images: ["/products/v-naturecare-shampoo/1.jpg"],
     tags: ["dầu gội", "không sulfate", "gàu"],
   },
   {
@@ -407,7 +407,7 @@ export const products: readonly Product[] = [
     usage:
       "Sau khi gội đầu, xoa nhẹ nhàng dầu xả theo chiều từ chân tóc đến ngọn tóc, để 1-2 phút rồi xả sạch bằng nước.",
     price: 481091,
-    images: [],
+    images: ["/products/v-naturecare-conditioner/1.jpg"],
     tags: ["dầu xả", "Macadamia", "dưỡng tóc"],
   },
   {
@@ -424,7 +424,7 @@ export const products: readonly Product[] = [
     usage:
       "Cho một lượng sữa tắm vừa đủ vào tay hoặc bông tắm, xoa đều và massage toàn cơ thể, sau đó tắm sạch bằng nước.",
     price: 345600,
-    images: [],
+    images: ["/products/v-naturecare-body-wash-women/1.jpg"],
     tags: ["sữa tắm", "rau má", "không paraben"],
   },
   {
@@ -441,7 +441,7 @@ export const products: readonly Product[] = [
     usage:
       "Cho một lượng sữa tắm vừa đủ vào tay hoặc bông tắm, xoa đều và massage toàn cơ thể, sau đó tắm sạch bằng nước.",
     price: 345600,
-    images: [],
+    images: ["/products/v-naturecare-body-wash-men/1.jpg"],
     tags: ["sữa tắm", "nam", "không paraben"],
   },
   {
@@ -458,7 +458,7 @@ export const products: readonly Product[] = [
     usage:
       "Vệ sinh hằng ngày: làm ướt vùng kín, cho một lượng vừa đủ ra lòng bàn tay, xoa nhẹ để tạo bọt và vệ sinh nhẹ nhàng bên ngoài vùng kín. Vệ sinh lại bằng nước sạch.",
     price: 230727,
-    images: [],
+    images: ["/products/v-naturecare-feminine-wash/1.jpg"],
     tags: ["vùng kín", "thiên nhiên", "không paraben"],
   },
   {
@@ -475,7 +475,7 @@ export const products: readonly Product[] = [
     usage:
       "Lắc đều trước khi sử dụng. Để vòi xịt cách vùng da khoảng 10-15cm và xịt đều. Mỗi lần xịt 1-2 nhịp hoặc nhiều hơn theo nhu cầu.",
     price: 736364,
-    images: [],
+    images: ["/products/v-fresh-khu-mui/1.jpg"],
     tags: ["khử mùi", "không cồn", "Silver citrate"],
   },
   {
@@ -492,7 +492,7 @@ export const products: readonly Product[] = [
     usage:
       "Xịt vào 2 bên khoang miệng, mỗi lần 1-2 nhịp xịt hoặc nhiều hơn theo nhu cầu. Sử dụng trước khi giao tiếp hoặc sau khi ăn.",
     price: 795273,
-    images: [],
+    images: ["/products/v-fresh-xit-thom-mieng/1.jpg"],
     tags: ["hôi miệng", "Xylitol", "bạc hà"],
   },
   // ============ MỸ PHẨM ============
@@ -598,7 +598,7 @@ export const products: readonly Product[] = [
     usage:
       "Làm sạch môi trước khi dùng. Thoa son dưỡng trực tiếp lên môi hằng ngày, hoặc dùng làm lớp dưỡng ẩm mềm mại trước khi thoa son màu.",
     price: 181636,
-    images: [],
+    images: ["/products/v-naturecare-lips/1.jpg"],
     tags: ["son dưỡng", "sáp ong", "thiên nhiên"],
   },
 ];
