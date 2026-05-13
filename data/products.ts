@@ -509,7 +509,10 @@ export const products: readonly Product[] = [
     usage:
       "Lắc đều trước khi sử dụng. Để vòi xịt cách vùng da khoảng 10-15cm và xịt đều. Mỗi lần xịt 1-2 nhịp hoặc nhiều hơn theo nhu cầu.",
     price: 736364,
-    images: ["/products/v-fresh-khu-mui/1.jpg"],
+    images: [
+      "/products/v-fresh-khu-mui/1.jpg",
+      "/products/v-fresh-khu-mui/2.jpg",
+    ],
     tags: ["khử mùi", "không cồn", "Silver citrate"],
   },
   {
