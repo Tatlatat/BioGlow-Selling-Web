@@ -1,13 +1,32 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Clock, ArrowRight } from "lucide-react";
+import { BreadcrumbJsonLd } from "@/components/json-ld";
 import { blogPosts } from "@/data/blog";
+import { siteConfig } from "@/data/site-config";
 import { cn } from "@/lib/utils";
 
 export const metadata: Metadata = {
   title: "Cẩm nang sức khoẻ và làm đẹp",
-  description:
-    "Các bài viết về sức khoẻ, làm đẹp và chăm sóc cơ thể từ BioGlowVN — chia sẻ kiến thức hữu ích, thực tế và dễ áp dụng.",
+  description: `Cẩm nang sức khoẻ, làm đẹp và chăm sóc cơ thể từ ${siteConfig.name} — kiến thức hữu ích, thực tế, dễ áp dụng cho người Việt.`,
+  keywords: [
+    "cẩm nang sức khoẻ",
+    "blog sức khoẻ",
+    "chăm sóc da",
+    "dinh dưỡng",
+    "thực phẩm chức năng",
+    "review TPCN",
+    siteConfig.name,
+  ],
+  alternates: { canonical: "/blog" },
+  openGraph: {
+    type: "website",
+    locale: "vi_VN",
+    url: `${siteConfig.url}/blog`,
+    title: `Cẩm nang sức khoẻ và làm đẹp · ${siteConfig.name}`,
+    description: `Cẩm nang sức khoẻ, làm đẹp từ ${siteConfig.name}.`,
+    siteName: siteConfig.name,
+  },
 };
 
 const coverColorMap = {
@@ -20,6 +39,12 @@ const coverColorMap = {
 export default function BlogIndexPage(): React.ReactElement {
   return (
     <div>
+      <BreadcrumbJsonLd
+        items={[
+          { name: "Trang chủ", url: "/" },
+          { name: "Cẩm nang", url: "/blog" },
+        ]}
+      />
       <section className="bg-brand-50 border-b border-brand-100">
         <div className="container-tight py-12">
           <h1 className="font-serif text-3xl sm:text-4xl font-semibold text-brand-900">

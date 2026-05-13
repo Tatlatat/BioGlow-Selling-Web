@@ -5,6 +5,7 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
 import { FloatingZalo } from "@/components/floating-zalo";
+import { OrganizationJsonLd, WebsiteJsonLd } from "@/components/json-ld";
 import { siteConfig } from "@/data/site-config";
 
 import "./globals.css";
@@ -36,13 +37,24 @@ export const metadata: Metadata = {
     template: `%s · ${siteConfig.name}`,
   },
   description: siteConfig.description,
+  applicationName: siteConfig.name,
+  authors: [{ name: siteConfig.name, url: siteConfig.url }],
+  creator: siteConfig.name,
+  publisher: siteConfig.name,
   keywords: [
     "sản phẩm thiên nhiên",
     "thực phẩm bảo vệ sức khoẻ",
+    "thực phẩm chức năng",
     "mỹ phẩm thiên nhiên Việt Nam",
+    "TPCN chính hãng",
     "GMP ISO",
+    "Vinalink",
+    "Orico",
     siteConfig.name,
   ],
+  alternates: {
+    canonical: "/",
+  },
   openGraph: {
     type: "website",
     locale: "vi_VN",
@@ -50,10 +62,34 @@ export const metadata: Metadata = {
     siteName: siteConfig.name,
     title: `${siteConfig.name} — ${siteConfig.tagline}`,
     description: siteConfig.description,
+    images: [
+      {
+        url: siteConfig.defaultOgImage,
+        width: 1200,
+        height: 630,
+        alt: `${siteConfig.name} — ${siteConfig.tagline}`,
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: `${siteConfig.name} — ${siteConfig.tagline}`,
+    description: siteConfig.description,
+    images: [siteConfig.defaultOgImage],
   },
   robots: {
     index: true,
     follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+      "max-video-preview": -1,
+    },
+  },
+  formatDetection: {
+    telephone: true,
   },
 };
 
@@ -65,6 +101,8 @@ export default function RootLayout({
   return (
     <html lang="vi" className={`${fontSans.variable} ${fontSerif.variable}`}>
       <body className="min-h-dvh flex flex-col font-sans text-ink antialiased">
+        <OrganizationJsonLd />
+        <WebsiteJsonLd />
         <Header />
         <main className="flex-1">{children}</main>
         <Footer />

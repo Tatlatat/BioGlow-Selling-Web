@@ -2,12 +2,31 @@ import type { Metadata } from "next";
 import { Phone, Clock, Truck, Mail } from "lucide-react";
 import { ZaloIcon } from "@/components/zalo-icon";
 import { ContactForm } from "@/components/contact-form";
+import { BreadcrumbJsonLd } from "@/components/json-ld";
 import { siteConfig } from "@/data/site-config";
 import { buildTelLink, buildZaloOrderLink } from "@/lib/utils";
 
+const phonesDisplay = siteConfig.contact.phones.map((p) => p.display).join(" / ");
+
 export const metadata: Metadata = {
   title: "Liên hệ",
-  description: `Liên hệ ${siteConfig.name} để được tư vấn miễn phí về sản phẩm thiên nhiên. Hotline: ${siteConfig.contact.phones.map((p) => p.display).join(" / ")}.`,
+  description: `Liên hệ ${siteConfig.name} để được tư vấn miễn phí về sản phẩm thiên nhiên — Hotline ${phonesDisplay}. Phản hồi trong vài phút giờ hành chính. Giao hàng toàn quốc · COD.`,
+  keywords: [
+    `liên hệ ${siteConfig.name}`,
+    "tư vấn TPCN",
+    "Zalo tư vấn",
+    "hotline mua TPCN",
+    siteConfig.name,
+  ],
+  alternates: { canonical: "/lien-he" },
+  openGraph: {
+    type: "website",
+    locale: "vi_VN",
+    url: `${siteConfig.url}/lien-he`,
+    title: `Liên hệ · ${siteConfig.name}`,
+    description: `Hotline ${phonesDisplay} — tư vấn miễn phí qua Zalo và điện thoại.`,
+    siteName: siteConfig.name,
+  },
 };
 
 type IconComponent = React.ComponentType<{ className?: string }>;
@@ -57,6 +76,12 @@ export default function ContactPage(): React.ReactElement {
 
   return (
     <div>
+      <BreadcrumbJsonLd
+        items={[
+          { name: "Trang chủ", url: "/" },
+          { name: "Liên hệ", url: "/lien-he" },
+        ]}
+      />
       <section className="bg-brand-50 border-b border-brand-100">
         <div className="container-tight py-12">
           <h1 className="font-serif text-3xl sm:text-4xl font-semibold text-brand-900">

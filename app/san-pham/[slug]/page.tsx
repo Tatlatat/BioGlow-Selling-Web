@@ -6,6 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import { ProductGallery } from "@/components/product-gallery";
 import { ProductCard } from "@/components/product-card";
 import { ZaloCallButtons } from "@/components/zalo-call-buttons";
+import { BreadcrumbJsonLd } from "@/components/json-ld";
 import { getCategory } from "@/data/categories";
 import {
   getProductBySlug,
@@ -31,12 +32,50 @@ export async function generateMetadata({
   const product = getProductBySlug(slug);
   if (!product) return { title: "Không tìm thấy sản phẩm" };
 
+  const category = getCategory(product.category);
+  const keywords = [
+    product.name,
+    `${product.name} chính hãng`,
+    `${product.name} giá bao nhiêu`,
+    `${product.name} mua ở đâu`,
+    `cách dùng ${product.name}`,
+    `${product.name} có tốt không`,
+    product.subtitle,
+    category.name,
+    ...(product.tags ?? []),
+    siteConfig.name,
+  ].filter((s): s is string => Boolean(s));
+
+  const ogTitle = `${product.name} — ${product.subtitle}`;
+  const description = `${product.shortDesc} Tư vấn miễn phí qua Zalo · Giao hàng toàn quốc · COD.`;
+
   return {
-    title: `${product.name} — ${product.subtitle}`,
-    description: product.shortDesc,
+    title: product.name,
+    description,
+    keywords,
+    alternates: { canonical: `/san-pham/${product.slug}` },
     openGraph: {
-      title: product.name,
-      description: product.shortDesc,
+      type: "website",
+      locale: "vi_VN",
+      url: `${siteConfig.url}/san-pham/${product.slug}`,
+      title: ogTitle,
+      description,
+      siteName: siteConfig.name,
+      images: product.images[0]
+        ? [
+            {
+              url: product.images[0],
+              width: 1024,
+              height: 1024,
+              alt: product.name,
+            },
+          ]
+        : undefined,
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: ogTitle,
+      description,
       images: product.images[0] ? [product.images[0]] : undefined,
     },
   };
@@ -64,6 +103,14 @@ export default async function ProductDetailPage({
         dangerouslySetInnerHTML={{
           __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c"),
         }}
+      />
+      <BreadcrumbJsonLd
+        items={[
+          { name: "Trang chủ", url: "/" },
+          { name: "Sản phẩm", url: "/san-pham" },
+          { name: category.shortName, url: `/nhom/${category.slug}` },
+          { name: product.name, url: `/san-pham/${product.slug}` },
+        ]}
       />
 
       <section className="bg-brand-50 border-b border-brand-100">
@@ -199,21 +246,36 @@ export default async function ProductDetailPage({
 }
 
 function buildProductJsonLd(product: Product): Record<string, unknown> {
+  const category = getCategory(product.category);
   return {
     "@context": "https://schema.org",
     "@type": "Product",
+    "@id": `${siteConfig.url}/san-pham/${product.slug}`,
     name: product.name,
     description: product.shortDesc,
     image: product.images.map((src) => `${siteConfig.url}${src}`),
+    sku: product.slug,
+    category: category.name,
     brand: { "@type": "Brand", name: siteConfig.name },
     ...(product.price !== null
       ? {
           offers: {
             "@type": "Offer",
+            url: `${siteConfig.url}/san-pham/${product.slug}`,
             priceCurrency: "VND",
             price: product.price,
+            priceValidUntil: new Date(
+              new Date().getFullYear() + 1,
+              11,
+              31
+            ).toISOString().split("T")[0],
             availability: "https://schema.org/InStock",
-            seller: { "@type": "Organization", name: siteConfig.name },
+            itemCondition: "https://schema.org/NewCondition",
+            seller: {
+              "@type": "Organization",
+              name: siteConfig.name,
+              url: siteConfig.url,
+            },
           },
         }
       : {}),

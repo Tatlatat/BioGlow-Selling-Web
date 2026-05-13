@@ -3,11 +3,30 @@ import Link from "next/link";
 import { ShieldCheck, Leaf, Award, Truck } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ZaloCallButtons } from "@/components/zalo-call-buttons";
+import { BreadcrumbJsonLd } from "@/components/json-ld";
 import { siteConfig } from "@/data/site-config";
 
 export const metadata: Metadata = {
   title: `Về ${siteConfig.name}`,
-  description: `${siteConfig.name} — shop online chuyên sản phẩm thiên nhiên tuyển chọn cho sức khoẻ và sắc đẹp.`,
+  description: `${siteConfig.name} — shop online chuyên sản phẩm thiên nhiên tuyển chọn cho sức khoẻ và sắc đẹp. Tuyển chọn TPCN/mỹ phẩm sản xuất tại Việt Nam, đạt chuẩn GMP/ISO, có nguồn gốc minh bạch.`,
+  keywords: [
+    `về ${siteConfig.name}`,
+    "shop TPCN uy tín",
+    "đại lý Vinalink",
+    "đại lý Orico",
+    "TPCN chính hãng Việt Nam",
+    "GMP ISO",
+    siteConfig.name,
+  ],
+  alternates: { canonical: "/ve-bioglowvn" },
+  openGraph: {
+    type: "website",
+    locale: "vi_VN",
+    url: `${siteConfig.url}/ve-bioglowvn`,
+    title: `Về ${siteConfig.name}`,
+    description: `${siteConfig.name} — shop online sản phẩm thiên nhiên tuyển chọn.`,
+    siteName: siteConfig.name,
+  },
 };
 
 const values = [
@@ -40,6 +59,12 @@ const values = [
 export default function AboutPage(): React.ReactElement {
   return (
     <div>
+      <BreadcrumbJsonLd
+        items={[
+          { name: "Trang chủ", url: "/" },
+          { name: `Về ${siteConfig.name}`, url: "/ve-bioglowvn" },
+        ]}
+      />
       <section className="bg-gradient-to-b from-brand-50 to-white">
         <div className="container-tight py-16 sm:py-20">
           <div className="max-w-3xl">

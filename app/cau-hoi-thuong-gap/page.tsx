@@ -6,13 +6,32 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { ZaloCallButtons } from "@/components/zalo-call-buttons";
+import { BreadcrumbJsonLd } from "@/components/json-ld";
 import { faqs } from "@/data/faq";
 import { siteConfig } from "@/data/site-config";
 
 export const metadata: Metadata = {
   title: "Câu hỏi thường gặp",
-  description:
-    "Giải đáp các thắc mắc thường gặp về sản phẩm, giao hàng, đổi trả và tư vấn tại BioGlowVN.",
+  description: `Giải đáp các thắc mắc thường gặp về sản phẩm, giao hàng, đổi trả và tư vấn tại ${siteConfig.name}. Không tìm thấy câu trả lời — nhắn Zalo để được hỗ trợ nhanh.`,
+  keywords: [
+    "câu hỏi thường gặp",
+    "FAQ",
+    `${siteConfig.name} có uy tín không`,
+    "sản phẩm chính hãng",
+    "đổi trả",
+    "thanh toán COD",
+    "giao hàng toàn quốc",
+    siteConfig.name,
+  ],
+  alternates: { canonical: "/cau-hoi-thuong-gap" },
+  openGraph: {
+    type: "website",
+    locale: "vi_VN",
+    url: `${siteConfig.url}/cau-hoi-thuong-gap`,
+    title: `Câu hỏi thường gặp · ${siteConfig.name}`,
+    description: `Giải đáp thắc mắc về sản phẩm và dịch vụ tại ${siteConfig.name}.`,
+    siteName: siteConfig.name,
+  },
 };
 
 export default function FaqPage(): React.ReactElement {
@@ -36,6 +55,12 @@ export default function FaqPage(): React.ReactElement {
         dangerouslySetInnerHTML={{
           __html: JSON.stringify(faqJsonLd).replace(/</g, "\\u003c"),
         }}
+      />
+      <BreadcrumbJsonLd
+        items={[
+          { name: "Trang chủ", url: "/" },
+          { name: "Hỏi đáp", url: "/cau-hoi-thuong-gap" },
+        ]}
       />
 
       <section className="bg-brand-50 border-b border-brand-100">

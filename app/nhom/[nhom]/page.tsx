@@ -3,12 +3,14 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import { ProductCard } from "@/components/product-card";
 import { CategoryIcon } from "@/components/category-icon";
+import { BreadcrumbJsonLd } from "@/components/json-ld";
 import {
   categories,
   getCategory,
   isCategorySlug,
 } from "@/data/categories";
 import { getProductsByCategory } from "@/data/products";
+import { siteConfig } from "@/data/site-config";
 
 type Params = Promise<{ nhom: string }>;
 
@@ -24,9 +26,28 @@ export async function generateMetadata({
   const { nhom } = await params;
   if (!isCategorySlug(nhom)) return { title: "Không tìm thấy nhóm" };
   const category = getCategory(nhom);
+  const items = getProductsByCategory(category.slug);
+  const description = `${category.description} ${items.length} sản phẩm chính hãng — tư vấn miễn phí qua Zalo, giao hàng toàn quốc, thanh toán khi nhận.`;
   return {
     title: category.name,
-    description: category.description,
+    description,
+    keywords: [
+      category.name,
+      category.shortName,
+      `${category.shortName} chính hãng`,
+      `mua ${category.shortName} ở đâu`,
+      `${category.shortName} ${siteConfig.name}`,
+      siteConfig.name,
+    ],
+    alternates: { canonical: `/nhom/${category.slug}` },
+    openGraph: {
+      type: "website",
+      locale: "vi_VN",
+      url: `${siteConfig.url}/nhom/${category.slug}`,
+      title: `${category.name} · ${siteConfig.name}`,
+      description,
+      siteName: siteConfig.name,
+    },
   };
 }
 
@@ -43,6 +64,14 @@ export default async function CategoryPage({
 
   return (
     <div>
+      <BreadcrumbJsonLd
+        items={[
+          { name: "Trang chủ", url: "/" },
+          { name: "Sản phẩm", url: "/san-pham" },
+          { name: category.shortName, url: `/nhom/${category.slug}` },
+        ]}
+      />
+
       <section className="bg-gradient-to-b from-brand-50 to-white border-b border-brand-100">
         <div className="container-tight py-12">
           <div className="flex items-start gap-4">

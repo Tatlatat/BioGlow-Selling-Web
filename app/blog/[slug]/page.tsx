@@ -4,7 +4,9 @@ import { notFound } from "next/navigation";
 import { Clock, ArrowLeft } from "lucide-react";
 import { MarkdownContent } from "@/components/markdown-content";
 import { ZaloCallButtons } from "@/components/zalo-call-buttons";
+import { BlogPostingJsonLd, BreadcrumbJsonLd } from "@/components/json-ld";
 import { blogPosts, getBlogPost } from "@/data/blog";
+import { siteConfig } from "@/data/site-config";
 import { cn } from "@/lib/utils";
 
 type Params = Promise<{ slug: string }>;
@@ -21,9 +23,41 @@ export async function generateMetadata({
   const { slug } = await params;
   const post = getBlogPost(slug);
   if (!post) return { title: "Không tìm thấy bài viết" };
+
+  const keywords = [
+    ...(post.keywords ?? []),
+    post.title,
+    "cẩm nang sức khoẻ",
+    "BioGlowVN blog",
+    siteConfig.name,
+  ];
+
   return {
     title: post.title,
     description: post.excerpt,
+    keywords,
+    alternates: { canonical: `/blog/${post.slug}` },
+    authors: post.author
+      ? [{ name: post.author }]
+      : [{ name: siteConfig.name, url: siteConfig.url }],
+    openGraph: {
+      type: "article",
+      locale: "vi_VN",
+      url: `${siteConfig.url}/blog/${post.slug}`,
+      title: post.title,
+      description: post.excerpt,
+      siteName: siteConfig.name,
+      publishedTime: post.date,
+      modifiedTime: post.updated ?? post.date,
+      authors: [post.author ?? siteConfig.name],
+      images: [siteConfig.defaultOgImage],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: post.title,
+      description: post.excerpt,
+      images: [siteConfig.defaultOgImage],
+    },
   };
 }
 
@@ -45,6 +79,15 @@ export default async function BlogPostPage({
 
   return (
     <article>
+      <BlogPostingJsonLd post={post} />
+      <BreadcrumbJsonLd
+        items={[
+          { name: "Trang chủ", url: "/" },
+          { name: "Cẩm nang", url: "/blog" },
+          { name: post.title, url: `/blog/${post.slug}` },
+        ]}
+      />
+
       <div className={cn("h-48 sm:h-64", coverColorMap[post.coverColor])} />
 
       <section className="section pt-10">
@@ -60,11 +103,20 @@ export default async function BlogPostPage({
           <h1 className="mt-5 font-serif text-3xl sm:text-4xl font-semibold text-brand-900 leading-tight">
             {post.title}
           </h1>
-          <p className="mt-3 text-ink-muted flex items-center gap-3 text-sm">
-            <span>{formatDate(post.date)}</span>
+          <p className="mt-3 text-ink-muted flex items-center gap-3 text-sm flex-wrap">
+            <span>
+              Đăng <time dateTime={post.date}>{formatDate(post.date)}</time>
+            </span>
+            {post.updated && post.updated !== post.date ? (
+              <span>
+                · Cập nhật{" "}
+                <time dateTime={post.updated}>{formatDate(post.updated)}</time>
+              </span>
+            ) : null}
             <span className="inline-flex items-center gap-1">
               <Clock className="h-3 w-3" /> {post.readingMinutes} phút đọc
             </span>
+            <span>· Bởi {post.author ?? siteConfig.name}</span>
           </p>
 
           <p className="mt-6 text-lg text-ink-muted">{post.excerpt}</p>

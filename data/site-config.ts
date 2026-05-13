@@ -7,7 +7,12 @@ export const siteConfig = {
   tagline: "Sản phẩm thiên nhiên tuyển chọn cho sức khoẻ và sắc đẹp",
   description:
     "BioGlowVN — Shop online chuyên sản phẩm thiên nhiên cho sức khoẻ và sắc đẹp. Sản xuất tại Việt Nam, đạt chuẩn GMP/ISO. Giao hàng toàn quốc, thanh toán khi nhận (COD).",
-  url: "https://bioglowvn.example.com",
+  url: "https://bio-glow-selling-web.vercel.app",
+  /**
+   * Năm thành lập — dùng cho `foundingDate` trong Organization JSON-LD.
+   * Đổi khi có thông tin chính thức.
+   */
+  foundingYear: 2026,
 
   contact: {
     /**
@@ -35,6 +40,13 @@ export const siteConfig = {
     youtube: "",
     tiktok: "",
   },
+
+  /**
+   * Mặc định chia sẻ Zalo/Facebook. Cần tạo file `/public/og-default.jpg`
+   * kích thước 1200×630 để hiển thị preview khi share. Khi chưa có,
+   * Zalo/FB sẽ fallback ảnh đầu tiên gặp trên trang.
+   */
+  defaultOgImage: "/og-default.jpg",
 } as const;
 
 export type SiteConfig = typeof siteConfig;

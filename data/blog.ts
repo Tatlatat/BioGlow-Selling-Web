@@ -4,8 +4,14 @@ export type BlogPost = {
   excerpt: string;
   /** Định dạng YYYY-MM-DD */
   date: string;
+  /** ISO date YYYY-MM-DD nếu khác `date` — dùng cho `dateModified` schema. */
+  updated?: string;
   readingMinutes: number;
   coverColor: "leaf" | "warm" | "gold" | "brand";
+  /** Tác giả/người viết. Bỏ trống = dùng BioGlowVN (Organization). */
+  author?: string;
+  /** Từ khoá để build meta `keywords` và `BlogPosting.keywords` schema. */
+  keywords?: string[];
   /** Nội dung markdown đơn giản (đoạn văn cách bởi 2 newline, gạch đầu dòng bằng "- "). */
   content: string;
 };
