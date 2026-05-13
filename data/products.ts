@@ -398,8 +398,8 @@ export const products: readonly Product[] = [
       "Phủ một lượng kem đánh răng vừa đủ lên bàn chải, đánh toàn bộ răng trong khoảng 2 phút. Dùng tối thiểu 2 lần/ngày — sau khi thức dậy, sau bữa ăn và trước khi đi ngủ.",
     price: 176727,
     images: [
-      "/products/vsmile-kem-danh-rang/1.jpg",
       "/products/vsmile-kem-danh-rang/2.jpg",
+      "/products/vsmile-kem-danh-rang/1.jpg",
     ],
     featured: true,
     bestseller: true,
