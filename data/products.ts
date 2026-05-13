@@ -267,7 +267,10 @@ export const products: readonly Product[] = [
       "Trẻ 3-4 tuổi: 1 gói x 1-2 lần/ngày. Trẻ 5-9 tuổi: 1 gói x 2-3 lần/ngày. Trẻ 10 tuổi trở lên: 2 gói x 2 lần/ngày. Pha với nước hoặc sữa, uống trước bữa ăn 30 phút hoặc sau ăn 1 giờ.",
     warning: STANDARD_FOOD_WARNING,
     price: 505636,
-    images: ["/products/kidsmune-max/1.jpg"],
+    images: [
+      "/products/kidsmune-max/2.jpg",
+      "/products/kidsmune-max/1.jpg",
+    ],
     tags: ["trẻ em", "đề kháng", "tiêu hoá"],
   },
   {
