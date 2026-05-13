@@ -127,7 +127,10 @@ export const products: readonly Product[] = [
       "Pha 1 gói (25g) với khoảng 150ml nước. Người lớn và trẻ em > 6 tuổi: 1-3 gói/ngày hoặc nhiều hơn theo nhu cầu.",
     warning: STANDARD_FOOD_WARNING,
     price: 652909,
-    images: ["/products/vhealth-tra-xanh/1.jpg"],
+    images: [
+      "/products/vhealth-tra-xanh/1.jpg",
+      "/products/vhealth-tra-xanh/2.jpg",
+    ],
     bestseller: true,
     benefits: [
       "Vị matcha thanh mát, hậu vị sữa dịu",
@@ -394,7 +397,10 @@ export const products: readonly Product[] = [
     usage:
       "Phủ một lượng kem đánh răng vừa đủ lên bàn chải, đánh toàn bộ răng trong khoảng 2 phút. Dùng tối thiểu 2 lần/ngày — sau khi thức dậy, sau bữa ăn và trước khi đi ngủ.",
     price: 176727,
-    images: ["/products/vsmile-kem-danh-rang/1.jpg"],
+    images: [
+      "/products/vsmile-kem-danh-rang/1.jpg",
+      "/products/vsmile-kem-danh-rang/2.jpg",
+    ],
     featured: true,
     bestseller: true,
     benefits: [
