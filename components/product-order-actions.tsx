@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import { Minus, Phone, Plus } from "lucide-react";
+import { Check, Minus, Phone, Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ZaloIcon } from "@/components/zalo-icon";
 import { siteConfig } from "@/data/site-config";
@@ -9,6 +9,7 @@ import {
   buildOrderRefCode,
   buildTelLink,
   buildZaloOrderLink,
+  buildZaloOrderMessage,
   formatPriceVND,
 } from "@/lib/utils";
 
@@ -28,6 +29,7 @@ export function ProductOrderActions({
 }: Props): React.ReactElement {
   const [qty, setQty] = useState<number>(1);
   const [refCode, setRefCode] = useState<string | undefined>(undefined);
+  const [copied, setCopied] = useState<boolean>(false);
 
   useEffect(() => {
     setRefCode(buildOrderRefCode(productSlug));
@@ -35,20 +37,39 @@ export function ProductOrderActions({
 
   const primaryPhone = siteConfig.contact.phones[0];
   const telUrl = buildTelLink(primaryPhone.tel);
+  const zaloUrl = buildZaloOrderLink(primaryPhone.tel);
 
-  const zaloUrl = useMemo(
+  const orderMessage = useMemo(
     () =>
-      buildZaloOrderLink(primaryPhone.tel, {
+      buildZaloOrderMessage({
         productName,
         productSlug,
         qty,
         refCode,
       }),
-    [primaryPhone.tel, productName, productSlug, qty, refCode],
+    [productName, productSlug, qty, refCode],
   );
 
   const decrease = (): void => setQty((q) => Math.max(MIN_QTY, q - 1));
   const increase = (): void => setQty((q) => Math.min(MAX_QTY, q + 1));
+
+  const handleZaloClick = async (
+    e: React.MouseEvent<HTMLAnchorElement>,
+  ): Promise<void> => {
+    e.preventDefault();
+    try {
+      await navigator.clipboard.writeText(orderMessage);
+      setCopied(true);
+      window.setTimeout(() => {
+        window.open(zaloUrl, "_blank", "noopener,noreferrer");
+        window.setTimeout(() => setCopied(false), 1500);
+      }, 650);
+    } catch {
+      window.open(zaloUrl, "_blank", "noopener,noreferrer");
+    }
+  };
+
+  const zaloLabel = copied ? "✓ Đã sao chép — Mở Zalo…" : "Đặt qua Zalo";
 
   return (
     <>
@@ -86,9 +107,19 @@ export function ProductOrderActions({
 
         <div className="flex flex-col sm:flex-row gap-3">
           <Button variant="warm" size="xl" asChild>
-            <a href={zaloUrl} target="_blank" rel="noopener noreferrer">
-              <ZaloIcon className="h-5 w-5" />
-              Đặt qua Zalo
+            <a
+              href={zaloUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={handleZaloClick}
+              aria-live="polite"
+            >
+              {copied ? (
+                <Check className="h-5 w-5" />
+              ) : (
+                <ZaloIcon className="h-5 w-5" />
+              )}
+              {zaloLabel}
             </a>
           </Button>
           <Button variant="outline" size="xl" asChild>
@@ -98,6 +129,12 @@ export function ProductOrderActions({
             </a>
           </Button>
         </div>
+
+        <p className="text-xs text-ink-muted leading-relaxed">
+          Bấm <span className="font-medium">Đặt qua Zalo</span> — thông tin đơn
+          được sao chép sẵn. Vào Zalo, <span className="font-medium">giữ ô
+          chat → Paste/Dán</span> rồi điền họ tên, SĐT, địa chỉ và gửi.
+        </p>
       </div>
 
       {/* Sticky bottom bar on mobile only */}
@@ -122,10 +159,15 @@ export function ProductOrderActions({
             href={zaloUrl}
             target="_blank"
             rel="noopener noreferrer"
+            onClick={handleZaloClick}
             className="flex flex-1 items-center justify-center gap-2 rounded-lg bg-warm-red px-3 py-3 text-sm font-semibold text-white shadow-sm active:scale-[0.98]"
           >
-            <ZaloIcon className="h-5 w-5" />
-            Đặt qua Zalo
+            {copied ? (
+              <Check className="h-5 w-5" />
+            ) : (
+              <ZaloIcon className="h-5 w-5" />
+            )}
+            {copied ? "Đã sao chép…" : "Đặt qua Zalo"}
           </a>
           <a
             href={telUrl}

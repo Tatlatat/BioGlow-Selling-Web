@@ -13,20 +13,23 @@ export function formatPriceVND(value: number): string {
   }).format(value);
 }
 
-export type ZaloOrderOptions = {
-  productName?: string;
+// Zalo's deeplink (zalo.me/PHONE) ignores query parameters — unlike
+// WhatsApp's wa.me/?text=. So the link only opens a chat; the order
+// message has to be copied to clipboard for the customer to paste.
+export function buildZaloOrderLink(phone: string): string {
+  return `https://zalo.me/${phone.replace(/\D/g, "")}`;
+}
+
+export type ZaloOrderMessageOptions = {
+  productName: string;
   productSlug?: string;
   qty?: number;
   refCode?: string;
 };
 
-export function buildZaloOrderLink(
-  phone: string,
-  options?: ZaloOrderOptions,
+export function buildZaloOrderMessage(
+  options: ZaloOrderMessageOptions,
 ): string {
-  const base = `https://zalo.me/${phone.replace(/\D/g, "")}`;
-  if (!options?.productName) return base;
-
   const qty = options.qty && options.qty > 0 ? options.qty : 1;
   const lines: string[] = [
     "Xin chào BioGlowVN,",
@@ -37,8 +40,7 @@ export function buildZaloOrderLink(
   if (options.refCode) {
     lines.push("", `(Mã tham chiếu: ${options.refCode})`);
   }
-
-  return `${base}?text=${encodeURIComponent(lines.join("\n"))}`;
+  return lines.join("\n");
 }
 
 export function buildOrderRefCode(slug: string): string {

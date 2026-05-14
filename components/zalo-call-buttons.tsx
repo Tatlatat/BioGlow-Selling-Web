@@ -18,7 +18,7 @@ export function ZaloCallButtons({
   layout = "row",
 }: Props): React.ReactElement {
   const primaryPhone = siteConfig.contact.phones[0];
-  const zaloUrl = buildZaloOrderLink(primaryPhone.tel, { productName });
+  const zaloUrl = buildZaloOrderLink(primaryPhone.tel);
   const telUrl = buildTelLink(primaryPhone.tel);
   const stackClasses =
     layout === "stack" ? "flex flex-col gap-3" : "flex flex-col sm:flex-row gap-3";
