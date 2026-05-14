@@ -11,53 +11,6 @@ type Props = {
 };
 
 const IMAGE_QUALITY = 70;
-const WATERMARK_TEXT = "BioGlowVN • bioglowvn.com";
-
-function WatermarkOverlay(): React.ReactElement {
-  return (
-    <svg
-      className="pointer-events-none absolute inset-0 h-full w-full select-none opacity-[0.16]"
-      xmlns="http://www.w3.org/2000/svg"
-      aria-hidden="true"
-    >
-      <defs>
-        <pattern
-          id="bgvn-wm"
-          patternUnits="userSpaceOnUse"
-          width="320"
-          height="180"
-          patternTransform="rotate(-28)"
-        >
-          <text
-            x="0"
-            y="60"
-            fontFamily="ui-sans-serif, system-ui, sans-serif"
-            fontSize="22"
-            fontWeight="700"
-            fill="#ffffff"
-            stroke="#000000"
-            strokeWidth="0.5"
-          >
-            {WATERMARK_TEXT}
-          </text>
-          <text
-            x="60"
-            y="140"
-            fontFamily="ui-sans-serif, system-ui, sans-serif"
-            fontSize="18"
-            fontWeight="600"
-            fill="#ffffff"
-            stroke="#000000"
-            strokeWidth="0.4"
-          >
-            {WATERMARK_TEXT}
-          </text>
-        </pattern>
-      </defs>
-      <rect width="100%" height="100%" fill="url(#bgvn-wm)" />
-    </svg>
-  );
-}
 
 function useContentProtection(): boolean {
   const [blurred, setBlurred] = React.useState(false);
@@ -157,7 +110,6 @@ export function ProductGallery({ images, alt }: Props): React.ReactElement {
               draggable={false}
               priority
             />
-            <WatermarkOverlay />
             <div
               className="absolute inset-0 z-10"
               aria-hidden="true"
@@ -198,12 +150,6 @@ export function ProductGallery({ images, alt }: Props): React.ReactElement {
           ))}
         </div>
       ) : null}
-
-      <p className="text-xs leading-relaxed text-ink-muted">
-        Ảnh mang tính minh hoạ, đã tối ưu độ phân giải. Bao bì và màu sắc thực tế có thể
-        thay đổi theo lô sản xuất — vui lòng nhắn Zalo để xem ảnh sản phẩm thực tế
-        trước khi đặt hàng.
-      </p>
     </div>
   );
 }

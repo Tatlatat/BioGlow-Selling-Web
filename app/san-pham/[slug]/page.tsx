@@ -245,6 +245,14 @@ export default async function ProductDetailPage({
           </div>
         </section>
       ) : null}
+
+      <div className="container-tight pb-6">
+        <p className="text-[11px] leading-relaxed text-ink-muted/80">
+          Ảnh sản phẩm trên website mang tính minh hoạ; bao bì và màu sắc thực tế có
+          thể thay đổi theo lô sản xuất. Quý khách vui lòng nhắn Zalo để được xem ảnh
+          sản phẩm thực tế trước khi đặt hàng.
+        </p>
+      </div>
     </article>
   );
 }
