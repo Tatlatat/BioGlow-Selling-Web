@@ -2,17 +2,18 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Clock, ArrowLeft } from "lucide-react";
+import Image from "next/image";
 import { MarkdownContent } from "@/components/markdown-content";
 import { ZaloCallButtons } from "@/components/zalo-call-buttons";
 import { BlogPostingJsonLd, BreadcrumbJsonLd } from "@/components/json-ld";
-import { blogPosts, getBlogPost } from "@/data/blog";
+import { getAllPosts, getPostBySlug } from "@/lib/blog";
 import { siteConfig } from "@/data/site-config";
 import { cn } from "@/lib/utils";
 
 type Params = Promise<{ slug: string }>;
 
 export function generateStaticParams(): Array<{ slug: string }> {
-  return blogPosts.map((p) => ({ slug: p.slug }));
+  return getAllPosts().map((p) => ({ slug: p.slug }));
 }
 
 export async function generateMetadata({
@@ -21,7 +22,7 @@ export async function generateMetadata({
   params: Params;
 }): Promise<Metadata> {
   const { slug } = await params;
-  const post = getBlogPost(slug);
+  const post = getPostBySlug(slug);
   if (!post) return { title: "Không tìm thấy bài viết" };
 
   const keywords = [
@@ -50,13 +51,13 @@ export async function generateMetadata({
       publishedTime: post.date,
       modifiedTime: post.updated ?? post.date,
       authors: [post.author ?? siteConfig.name],
-      images: [siteConfig.defaultOgImage],
+      images: [post.hero ?? siteConfig.defaultOgImage],
     },
     twitter: {
       card: "summary_large_image",
       title: post.title,
       description: post.excerpt,
-      images: [siteConfig.defaultOgImage],
+      images: [post.hero ?? siteConfig.defaultOgImage],
     },
   };
 }
@@ -74,7 +75,7 @@ export default async function BlogPostPage({
   params: Params;
 }): Promise<React.ReactElement> {
   const { slug } = await params;
-  const post = getBlogPost(slug);
+  const post = getPostBySlug(slug);
   if (!post) notFound();
 
   return (
@@ -88,7 +89,25 @@ export default async function BlogPostPage({
         ]}
       />
 
-      <div className={cn("h-48 sm:h-64", coverColorMap[post.coverColor])} />
+      {post.hero ? (
+        <div className="relative h-56 sm:h-80 w-full overflow-hidden bg-brand-50">
+          <Image
+            src={post.hero}
+            alt={post.title}
+            fill
+            sizes="100vw"
+            priority
+            className="object-cover"
+          />
+        </div>
+      ) : (
+        <div
+          className={cn(
+            "h-48 sm:h-64",
+            coverColorMap[post.coverColor ?? "brand"],
+          )}
+        />
+      )}
 
       <section className="section pt-10">
         <div className="container-tight max-w-3xl">

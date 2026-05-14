@@ -1,7 +1,7 @@
 import type { MetadataRoute } from "next";
 import { categories } from "@/data/categories";
 import { products } from "@/data/products";
-import { blogPosts } from "@/data/blog";
+import { getAllPosts } from "@/lib/blog";
 import { siteConfig } from "@/data/site-config";
 
 export const dynamic = "force-static";
@@ -33,7 +33,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.8,
   }));
 
-  const blogRoutes: MetadataRoute.Sitemap = blogPosts.map((p) => ({
+  const blogRoutes: MetadataRoute.Sitemap = getAllPosts().map((p) => ({
     url: `${base}/blog/${p.slug}`,
     lastModified: new Date(p.updated ?? p.date),
     changeFrequency: "monthly",

@@ -1,4 +1,4 @@
-import { type BlogPost } from "@/data/blog";
+import { type BlogPost } from "@/lib/blog";
 import { siteConfig } from "@/data/site-config";
 
 type JsonLdData = Record<string, unknown>;
