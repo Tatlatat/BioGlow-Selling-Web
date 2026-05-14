@@ -78,7 +78,7 @@ export const products: readonly Product[] = [
       "Ngày dùng 1-2 gói hoặc nhiều hơn theo nhu cầu. Pha 1 gói với khoảng 50ml nước nóng, khuấy đều. Có thể uống nóng hoặc thêm đá.",
     warning: STANDARD_FOOD_WARNING,
     price: 407455,
-    images: ["/products/caphelink-new/1.jpg"],
+    images: ["/products/caphelink-new/1.jpg", "/products/caphelink-new/2.jpg"],
     featured: true,
     bestseller: true,
     benefits: [
