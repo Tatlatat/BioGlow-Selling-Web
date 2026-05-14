@@ -44,11 +44,23 @@ export function OrderFormModal({
   const [status, setStatus] = useState<SubmitStatus>("idle");
   const [errorKey, setErrorKey] = useState<string>("");
   const nameInputRef = useRef<HTMLInputElement>(null);
+  const submittedRef = useRef<boolean>(false);
+  const recoverySentRef = useRef<boolean>(false);
+  const fieldsRef = useRef({
+    name: "",
+    phone: "",
+    address: "",
+    note: "",
+    honeypot: "",
+  });
+  fieldsRef.current = { name, phone, address, note, honeypot };
 
   useEffect(() => {
     if (open) {
       setStatus("idle");
       setErrorKey("");
+      submittedRef.current = false;
+      recoverySentRef.current = false;
       window.setTimeout(() => nameInputRef.current?.focus(), 50);
       document.body.style.overflow = "hidden";
     } else {
@@ -59,14 +71,67 @@ export function OrderFormModal({
     };
   }, [open]);
 
+  const maybeSendRecovery = (): void => {
+    if (submittedRef.current || recoverySentRef.current) return;
+    const f = fieldsRef.current;
+    const hasName = f.name.trim().length > 0;
+    const hasPhone = f.phone.trim().replace(/\D/g, "").length > 0;
+    if (!hasName && !hasPhone) return;
+    recoverySentRef.current = true;
+    const payload = JSON.stringify({
+      productName,
+      productSlug,
+      qty,
+      refCode,
+      customerName: f.name,
+      phone: f.phone,
+      address: f.address,
+      note: f.note,
+      honeypot: f.honeypot,
+    });
+    try {
+      if (typeof navigator !== "undefined" && navigator.sendBeacon) {
+        const blob = new Blob([payload], { type: "application/json" });
+        navigator.sendBeacon("/api/lead-recovery", blob);
+      } else {
+        void fetch("/api/lead-recovery", {
+          method: "POST",
+          headers: { "content-type": "application/json" },
+          body: payload,
+          keepalive: true,
+        });
+      }
+    } catch {
+      /* fire and forget */
+    }
+  };
+
+  const handleClose = (): void => {
+    maybeSendRecovery();
+    onClose();
+  };
+
   useEffect(() => {
     if (!open) return;
-    const handler = (e: KeyboardEvent): void => {
-      if (e.key === "Escape") onClose();
+    const onKeydown = (e: KeyboardEvent): void => {
+      if (e.key === "Escape") handleClose();
     };
-    window.addEventListener("keydown", handler);
-    return () => window.removeEventListener("keydown", handler);
-  }, [open, onClose]);
+    const onUnload = (): void => maybeSendRecovery();
+    const onVisibility = (): void => {
+      if (document.visibilityState === "hidden") maybeSendRecovery();
+    };
+    window.addEventListener("keydown", onKeydown);
+    window.addEventListener("pagehide", onUnload);
+    window.addEventListener("beforeunload", onUnload);
+    document.addEventListener("visibilitychange", onVisibility);
+    return () => {
+      window.removeEventListener("keydown", onKeydown);
+      window.removeEventListener("pagehide", onUnload);
+      window.removeEventListener("beforeunload", onUnload);
+      document.removeEventListener("visibilitychange", onVisibility);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [open]);
 
   if (!open) return null;
 
@@ -101,6 +166,7 @@ export function OrderFormModal({
         setErrorKey(data.error ?? "telegram_failed");
         return;
       }
+      submittedRef.current = true;
       setStatus("success");
     } catch {
       setStatus("error");
@@ -114,7 +180,7 @@ export function OrderFormModal({
       aria-modal="true"
       aria-labelledby="order-form-title"
       className="fixed inset-0 z-50 flex items-end sm:items-center justify-center bg-black/60 backdrop-blur-sm"
-      onClick={onClose}
+      onClick={handleClose}
     >
       <div
         className="w-full max-w-md bg-white rounded-t-2xl sm:rounded-2xl shadow-xl max-h-[92vh] overflow-y-auto"
@@ -142,7 +208,7 @@ export function OrderFormModal({
               </div>
               <button
                 type="button"
-                onClick={onClose}
+                onClick={handleClose}
                 aria-label="Đóng"
                 className="-mr-2 -mt-2 p-2 text-ink-muted hover:text-brand-900"
               >

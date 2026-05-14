@@ -61,22 +61,11 @@ export async function generateMetadata({
       title: ogTitle,
       description,
       siteName: siteConfig.name,
-      images: product.images[0]
-        ? [
-            {
-              url: product.images[0],
-              width: 1024,
-              height: 1024,
-              alt: product.name,
-            },
-          ]
-        : undefined,
     },
     twitter: {
       card: "summary_large_image",
       title: ogTitle,
       description,
-      images: product.images[0] ? [product.images[0]] : undefined,
     },
   };
 }

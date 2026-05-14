@@ -5,6 +5,7 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
 import { FloatingZalo } from "@/components/floating-zalo";
+import { CookieBanner } from "@/components/cookie-banner";
 import { OrganizationJsonLd, WebsiteJsonLd } from "@/components/json-ld";
 import { siteConfig } from "@/data/site-config";
 
@@ -107,6 +108,7 @@ export default function RootLayout({
         <main className="flex-1">{children}</main>
         <Footer />
         <FloatingZalo />
+        <CookieBanner />
         <Analytics />
         <SpeedInsights />
       </body>

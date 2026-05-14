@@ -6,6 +6,7 @@ import Link from "next/link";
 import { Menu, X, Phone } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ZaloIcon } from "@/components/zalo-icon";
+import { SiteSearch } from "@/components/site-search";
 import { siteConfig } from "@/data/site-config";
 import { buildTelLink, buildZaloOrderLink, cn } from "@/lib/utils";
 
@@ -54,6 +55,7 @@ export function Header(): React.ReactElement {
         </nav>
 
         <div className="hidden lg:flex items-center gap-2">
+          <SiteSearch />
           <Button variant="ghost" size="sm" asChild>
             <a href={telUrl} className="text-brand-700">
               <Phone className="h-4 w-4" />
@@ -68,15 +70,18 @@ export function Header(): React.ReactElement {
           </Button>
         </div>
 
-        <button
-          type="button"
-          aria-label={open ? "Đóng menu" : "Mở menu"}
-          aria-expanded={open}
-          className="inline-flex h-10 w-10 items-center justify-center rounded-md lg:hidden text-brand-700 hover:bg-brand-50"
-          onClick={() => setOpen((v) => !v)}
-        >
-          {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
-        </button>
+        <div className="flex items-center gap-1 lg:hidden">
+          <SiteSearch />
+          <button
+            type="button"
+            aria-label={open ? "Đóng menu" : "Mở menu"}
+            aria-expanded={open}
+            className="inline-flex h-10 w-10 items-center justify-center rounded-md text-brand-700 hover:bg-brand-50"
+            onClick={() => setOpen((v) => !v)}
+          >
+            {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+          </button>
+        </div>
       </div>
 
       <div

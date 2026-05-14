@@ -59,6 +59,21 @@ export function Footer(): React.ReactElement {
                 Liên hệ
               </Link>
             </li>
+            <li>
+              <Link href="/chinh-sach-bao-mat" className="text-brand-100 hover:text-white">
+                Chính sách bảo mật
+              </Link>
+            </li>
+            <li>
+              <Link href="/dieu-khoan-su-dung" className="text-brand-100 hover:text-white">
+                Điều khoản sử dụng
+              </Link>
+            </li>
+            <li>
+              <Link href="/chinh-sach-cookie" className="text-brand-100 hover:text-white">
+                Chính sách Cookie
+              </Link>
+            </li>
           </ul>
         </div>
 
