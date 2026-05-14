@@ -13,11 +13,47 @@ export function formatPriceVND(value: number): string {
   }).format(value);
 }
 
-export function buildZaloOrderLink(phone: string, productName?: string): string {
+export type ZaloOrderOptions = {
+  productName?: string;
+  productSlug?: string;
+  qty?: number;
+  refCode?: string;
+};
+
+export function buildZaloOrderLink(
+  phone: string,
+  options?: ZaloOrderOptions,
+): string {
   const base = `https://zalo.me/${phone.replace(/\D/g, "")}`;
-  if (!productName) return base;
-  const message = `Xin chào, tôi muốn được tư vấn về sản phẩm: ${productName}`;
-  return `${base}?text=${encodeURIComponent(message)}`;
+  if (!options?.productName) return base;
+
+  const qty = options.qty && options.qty > 0 ? options.qty : 1;
+  const lines: string[] = [
+    "Xin chào BioGlowVN,",
+    `Tôi muốn đặt sản phẩm: ${options.productName} × ${qty}`,
+  ];
+  if (options.productSlug) lines.push(`Mã SP: ${options.productSlug}`);
+  lines.push("", "Họ tên: ", "Số điện thoại: ", "Địa chỉ giao hàng: ");
+  if (options.refCode) {
+    lines.push("", `(Mã tham chiếu: ${options.refCode})`);
+  }
+
+  return `${base}?text=${encodeURIComponent(lines.join("\n"))}`;
+}
+
+export function buildOrderRefCode(slug: string): string {
+  const d = new Date();
+  const yyyymmdd = `${d.getFullYear()}${String(d.getMonth() + 1).padStart(2, "0")}${String(d.getDate()).padStart(2, "0")}`;
+  let hash = 0;
+  for (let i = 0; i < slug.length; i++) {
+    hash = (hash * 31 + slug.charCodeAt(i)) >>> 0;
+  }
+  const slugPart = (hash & 0xff).toString(16).toUpperCase().padStart(2, "0");
+  const rnd = Math.floor(Math.random() * 0xfff)
+    .toString(16)
+    .toUpperCase()
+    .padStart(3, "0");
+  return `BG-${yyyymmdd}-${slugPart}${rnd}`;
 }
 
 export function buildTelLink(phone: string): string {

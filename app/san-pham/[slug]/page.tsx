@@ -5,7 +5,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
 import { ProductGallery } from "@/components/product-gallery";
 import { ProductCard } from "@/components/product-card";
-import { ZaloCallButtons } from "@/components/zalo-call-buttons";
+import { ProductOrderActions } from "@/components/product-order-actions";
 import { BreadcrumbJsonLd } from "@/components/json-ld";
 import { getCategory } from "@/data/categories";
 import {
@@ -96,7 +96,7 @@ export default async function ProductDetailPage({
   const jsonLd = buildProductJsonLd(product);
 
   return (
-    <article>
+    <article className="pb-24 lg:pb-0">
       {/* JSON-LD for Google rich result */}
       <script
         type="application/ld+json"
@@ -164,7 +164,11 @@ export default async function ProductDetailPage({
 
             <p className="prose-shop">{product.shortDesc}</p>
 
-            <ZaloCallButtons productName={product.name} size="xl" />
+            <ProductOrderActions
+              productName={product.name}
+              productSlug={product.slug}
+              productPrice={product.price}
+            />
 
             <ul className="grid gap-2 text-sm text-ink-muted">
               <li>· Giao hàng toàn quốc — thanh toán khi nhận (COD)</li>

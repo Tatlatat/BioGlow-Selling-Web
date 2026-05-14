@@ -1,8 +1,15 @@
+"use client";
+
+import { usePathname } from "next/navigation";
 import { ZaloIcon } from "@/components/zalo-icon";
 import { siteConfig } from "@/data/site-config";
 import { buildZaloOrderLink } from "@/lib/utils";
 
-export function FloatingZalo(): React.ReactElement {
+export function FloatingZalo(): React.ReactElement | null {
+  const pathname = usePathname();
+  // PDP renders its own sticky bottom bar — avoid duplication on mobile.
+  if (pathname?.startsWith("/san-pham/")) return null;
+
   const phone = siteConfig.contact.phones[0];
   const href = buildZaloOrderLink(phone.tel);
 
