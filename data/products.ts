@@ -624,23 +624,6 @@ export const products: readonly Product[] = [
     featured: true,
     tags: ["chống nắng", "Lingostem", "astaxanthin"],
   },
-  {
-    slug: "v-naturecare-lips",
-    name: "Son dưỡng môi V-NATURECARE Lips",
-    subtitle: "Son dưỡng ẩm môi với sáp ong và dầu hạnh nhân",
-    category: "my-pham",
-    shortDesc:
-      "Son dưỡng môi thiên nhiên với dầu hạnh nhân, sáp ong trắng và dầu oliu — dưỡng ẩm và làm mềm môi khô nứt nẻ.",
-    longDesc:
-      "V-NATURECARE Lips là son dưỡng môi thiên nhiên không chứa dầu khoáng, chất bảo quản hay silicon. Công thức kết hợp dầu hạt hạnh nhân, sáp ong trắng, dầu cám gạo, dầu oliu và bơ hạt pouteria sapota — dưỡng ẩm sâu, làm mềm và cải thiện môi khô, nứt nẻ.",
-    ingredients:
-      "Dầu hạt Hạnh nhân, Sáp ong trắng, Dầu cám gạo, Dầu quả Oliu, Bơ hạt Pouteria sapota. Không chứa dầu khoáng, chất bảo quản và silicon.",
-    usage:
-      "Làm sạch môi trước khi dùng. Thoa son dưỡng trực tiếp lên môi hằng ngày, hoặc dùng làm lớp dưỡng ẩm mềm mại trước khi thoa son màu.",
-    price: 181636,
-    images: ["/products/v-naturecare-lips/1.jpg"],
-    tags: ["son dưỡng", "sáp ong", "thiên nhiên"],
-  },
 ];
 
 export function getProductBySlug(slug: string): Product | undefined {
