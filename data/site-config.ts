@@ -7,7 +7,7 @@ export const siteConfig = {
   tagline: "Sản phẩm thiên nhiên tuyển chọn cho sức khoẻ và sắc đẹp",
   description:
     "BioGlowVN — Shop online chuyên sản phẩm thiên nhiên cho sức khoẻ và sắc đẹp. Sản xuất tại Việt Nam, đạt chuẩn GMP/ISO. Giao hàng toàn quốc, thanh toán khi nhận (COD).",
-  url: "https://bio-glow-selling-web.vercel.app",
+  url: "https://bioglow.io.vn",
   /**
    * Năm thành lập — dùng cho `foundingDate` trong Organization JSON-LD.
    * Đổi khi có thông tin chính thức.
