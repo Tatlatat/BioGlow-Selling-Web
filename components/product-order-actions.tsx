@@ -1,15 +1,15 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
-import { Check, Minus, Phone, Plus } from "lucide-react";
+import { useEffect, useState } from "react";
+import { Minus, Phone, Plus, ShoppingBag } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ZaloIcon } from "@/components/zalo-icon";
+import { OrderFormModal } from "@/components/order-form-modal";
 import { siteConfig } from "@/data/site-config";
 import {
   buildOrderRefCode,
   buildTelLink,
   buildZaloOrderLink,
-  buildZaloOrderMessage,
   formatPriceVND,
 } from "@/lib/utils";
 
@@ -29,7 +29,7 @@ export function ProductOrderActions({
 }: Props): React.ReactElement {
   const [qty, setQty] = useState<number>(1);
   const [refCode, setRefCode] = useState<string | undefined>(undefined);
-  const [copied, setCopied] = useState<boolean>(false);
+  const [modalOpen, setModalOpen] = useState<boolean>(false);
 
   useEffect(() => {
     setRefCode(buildOrderRefCode(productSlug));
@@ -39,41 +39,14 @@ export function ProductOrderActions({
   const telUrl = buildTelLink(primaryPhone.tel);
   const zaloUrl = buildZaloOrderLink(primaryPhone.tel);
 
-  const orderMessage = useMemo(
-    () =>
-      buildZaloOrderMessage({
-        productName,
-        productSlug,
-        qty,
-        refCode,
-      }),
-    [productName, productSlug, qty, refCode],
-  );
-
   const decrease = (): void => setQty((q) => Math.max(MIN_QTY, q - 1));
   const increase = (): void => setQty((q) => Math.min(MAX_QTY, q + 1));
-
-  const handleZaloClick = async (
-    e: React.MouseEvent<HTMLAnchorElement>,
-  ): Promise<void> => {
-    e.preventDefault();
-    try {
-      await navigator.clipboard.writeText(orderMessage);
-      setCopied(true);
-      window.setTimeout(() => {
-        window.open(zaloUrl, "_blank", "noopener,noreferrer");
-        window.setTimeout(() => setCopied(false), 1500);
-      }, 650);
-    } catch {
-      window.open(zaloUrl, "_blank", "noopener,noreferrer");
-    }
-  };
-
-  const zaloLabel = copied ? "✓ Đã sao chép — Mở Zalo…" : "Đặt qua Zalo";
+  const openModal = (): void => setModalOpen(true);
+  const closeModal = (): void => setModalOpen(false);
 
   return (
     <>
-      {/* Inline qty stepper + CTA block (shown on PDP body) */}
+      {/* Inline qty stepper + CTA block */}
       <div className="flex flex-col gap-3">
         <div className="flex items-center gap-3">
           <span className="text-sm text-ink-muted">Số lượng:</span>
@@ -106,21 +79,9 @@ export function ProductOrderActions({
         </div>
 
         <div className="flex flex-col sm:flex-row gap-3">
-          <Button variant="warm" size="xl" asChild>
-            <a
-              href={zaloUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              onClick={handleZaloClick}
-              aria-live="polite"
-            >
-              {copied ? (
-                <Check className="h-5 w-5" />
-              ) : (
-                <ZaloIcon className="h-5 w-5" />
-              )}
-              {zaloLabel}
-            </a>
+          <Button variant="warm" size="xl" onClick={openModal}>
+            <ShoppingBag className="h-5 w-5" />
+            Đặt mua ngay
           </Button>
           <Button variant="outline" size="xl" asChild>
             <a href={telUrl}>
@@ -130,11 +91,15 @@ export function ProductOrderActions({
           </Button>
         </div>
 
-        <p className="text-xs text-ink-muted leading-relaxed">
-          Bấm <span className="font-medium">Đặt qua Zalo</span> — thông tin đơn
-          được sao chép sẵn. Vào Zalo, <span className="font-medium">giữ ô
-          chat → Paste/Dán</span> rồi điền họ tên, SĐT, địa chỉ và gửi.
-        </p>
+        <a
+          href={zaloUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center gap-1.5 text-sm text-brand-700 hover:text-brand-900 self-start"
+        >
+          <ZaloIcon className="h-4 w-4" />
+          Tư vấn thêm qua Zalo trước khi đặt
+        </a>
       </div>
 
       {/* Sticky bottom bar on mobile only */}
@@ -155,20 +120,14 @@ export function ProductOrderActions({
             </div>
           ) : null}
 
-          <a
-            href={zaloUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            onClick={handleZaloClick}
+          <button
+            type="button"
+            onClick={openModal}
             className="flex flex-1 items-center justify-center gap-2 rounded-lg bg-warm-red px-3 py-3 text-sm font-semibold text-white shadow-sm active:scale-[0.98]"
           >
-            {copied ? (
-              <Check className="h-5 w-5" />
-            ) : (
-              <ZaloIcon className="h-5 w-5" />
-            )}
-            {copied ? "Đã sao chép…" : "Đặt qua Zalo"}
-          </a>
+            <ShoppingBag className="h-5 w-5" />
+            Đặt mua ngay
+          </button>
           <a
             href={telUrl}
             aria-label={`Gọi ${primaryPhone.display}`}
@@ -178,6 +137,16 @@ export function ProductOrderActions({
           </a>
         </div>
       </div>
+
+      <OrderFormModal
+        open={modalOpen}
+        onClose={closeModal}
+        productName={productName}
+        productSlug={productSlug}
+        productPrice={productPrice}
+        qty={qty}
+        refCode={refCode}
+      />
     </>
   );
 }
