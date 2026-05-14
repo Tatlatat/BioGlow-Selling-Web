@@ -7,7 +7,11 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "blog:gen": "bash scripts/blog/gen.sh",
+    "blog:publish": "bash scripts/blog/publish.sh",
+    "blog:topics": "ls scripts/blog/topics/ | sed 's/\\.yaml$//'",
+    "blog:drafts": "ls content/blog/_drafts/ 2>/dev/null | sed 's/\\.md$//' || echo 'No drafts.'"
   },
   "dependencies": {
     "@radix-ui/react-accordion": "^1.2.2",
