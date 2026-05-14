@@ -19,14 +19,16 @@ export function ProductCard({ product }: Props): React.ReactElement {
       href={`/san-pham/${product.slug}`}
       className="group flex flex-col overflow-hidden rounded-xl border border-brand-100 bg-white shadow-card transition hover:-translate-y-0.5 hover:shadow-card-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-600"
     >
-      <div className="relative aspect-[4/3] w-full bg-brand-50">
+      <div className="relative aspect-[4/3] w-full bg-brand-50 select-none [-webkit-user-select:none] [-webkit-touch-callout:none] [-webkit-user-drag:none]">
         {primaryImage ? (
           <Image
             src={primaryImage}
             alt={product.name}
             fill
             sizes="(min-width: 1024px) 25vw, (min-width: 640px) 33vw, 100vw"
-            className="object-cover transition-transform duration-300 group-hover:scale-105"
+            quality={70}
+            draggable={false}
+            className="pointer-events-none object-cover transition-transform duration-300 group-hover:scale-105"
           />
         ) : (
           <div className="flex h-full w-full flex-col items-center justify-center gap-2 text-brand-200">
