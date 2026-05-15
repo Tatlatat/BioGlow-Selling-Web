@@ -7,6 +7,8 @@ import { CommitmentList } from "@/components/commitment-list";
 import { QualityBadges } from "@/components/quality-badges";
 import { ProductCard } from "@/components/product-card";
 import { ZaloCallButtons } from "@/components/zalo-call-buttons";
+import { UspBar } from "@/components/usp-bar";
+import { LatestBlogPosts } from "@/components/latest-blog-posts";
 import { getFeaturedProducts } from "@/data/products";
 import { siteConfig } from "@/data/site-config";
 
@@ -35,6 +37,9 @@ export default function HomePage(): React.ReactElement {
               ràng, sản xuất tại Việt Nam, đạt chuẩn GMP/ISO. Tư vấn tận tâm — giao hàng
               toàn quốc — thanh toán khi nhận.
             </p>
+            <p className="mt-4 text-sm text-brand-700 font-medium">
+              Phân phối chính thức sản phẩm Vinalink Group — đồng hành cùng hàng trăm gia đình Việt.
+            </p>
             <div className="mt-8 flex flex-col sm:flex-row gap-3">
               <Button variant="primary" size="xl" asChild>
                 <Link href="/san-pham">Xem sản phẩm</Link>
@@ -46,6 +51,9 @@ export default function HomePage(): React.ReactElement {
           </div>
         </div>
       </section>
+
+      {/* 1b. USP / TRUST BAR */}
+      <UspBar />
 
       {/* 2. 3 ĐỐI TƯỢNG */}
       <section className="section bg-white">
@@ -158,6 +166,9 @@ export default function HomePage(): React.ReactElement {
           </div>
         </div>
       </section>
+
+      {/* 6b. CẨM NANG NỔI BẬT */}
+      <LatestBlogPosts />
 
       {/* 7. CTA */}
       <section className="section bg-brand-700 text-white">
