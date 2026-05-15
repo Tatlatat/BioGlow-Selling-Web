@@ -106,9 +106,9 @@ export function ProductOrderActions({
         </a>
       </div>
 
-      {/* Sticky bottom bar on mobile only — bg fully opaque để tránh content scroll qua bị nhìn xuyên */}
+      {/* Sticky bottom bar on mobile only — bg opaque + extend qua safe area (iPhone home indicator) để dính sát đáy */}
       <div
-        className="fixed inset-x-0 bottom-0 z-40 border-t border-brand-100 bg-white shadow-[0_-4px_12px_rgba(0,0,0,0.06)] lg:hidden"
+        className="fixed inset-x-0 bottom-0 z-40 border-t border-brand-100 bg-white shadow-[0_-4px_12px_rgba(0,0,0,0.06)] lg:hidden pb-[env(safe-area-inset-bottom)]"
         role="region"
         aria-label="Đặt hàng nhanh"
       >
