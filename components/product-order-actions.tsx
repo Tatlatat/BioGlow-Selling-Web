@@ -79,7 +79,8 @@ export function ProductOrderActions({
           </div>
         </div>
 
-        <div className="flex flex-col sm:flex-row gap-3">
+        {/* Inline xl CTAs chỉ hiển thị trên desktop — mobile dùng sticky bottom bar bên dưới để tránh duplicate */}
+        <div className="hidden lg:flex flex-col sm:flex-row gap-3">
           <Button variant="warm" size="xl" onClick={openModal}>
             <ShoppingBag className="h-5 w-5" />
             Đặt mua ngay
@@ -105,9 +106,9 @@ export function ProductOrderActions({
         </a>
       </div>
 
-      {/* Sticky bottom bar on mobile only */}
+      {/* Sticky bottom bar on mobile only — bg fully opaque để tránh content scroll qua bị nhìn xuyên */}
       <div
-        className="fixed inset-x-0 bottom-0 z-40 border-t border-brand-100 bg-white/95 backdrop-blur shadow-[0_-4px_12px_rgba(0,0,0,0.06)] lg:hidden"
+        className="fixed inset-x-0 bottom-0 z-40 border-t border-brand-100 bg-white shadow-[0_-4px_12px_rgba(0,0,0,0.06)] lg:hidden"
         role="region"
         aria-label="Đặt hàng nhanh"
       >
