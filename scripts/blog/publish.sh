@@ -58,7 +58,7 @@ Publish blog post: $SLUG
 
 $TITLE
 
-🤖 Generated locally via bioglow pipeline (Gemma 4 31B + Flux.2 Klein 4B)
+🤖 Generated locally via bioglow pipeline (Gemma 3 12B 4-bit + Flux.2 Klein 4B)
 
 Co-Authored-By: Claude Opus 4.7 (1M context) <noreply@anthropic.com>
 EOF

@@ -42,19 +42,22 @@ echo "→ Gen blog '$SLUG' qua bioglow pipeline..."
 echo "  bioglow: $BIOGLOW_DIR"
 echo ""
 
-# Preflight: kiểm tra mlx-vlm server
-if ! curl -s --max-time 3 http://127.0.0.1:8080/v1/models > /dev/null 2>&1; then
-  echo "✗ mlx-vlm server không chạy ở http://127.0.0.1:8080" >&2
-  echo "" >&2
-  echo "Bật server trước (terminal khác):" >&2
-  echo "  uv tool run mlx-lm.server --model mlx-community/gemma-4-31b-it-4bit --port 8080" >&2
-  echo "Hoặc dùng app LM Studio nếu anh đã cấu hình theo cách khác." >&2
-  exit 3
+# Preflight: nếu config dùng "http://..." endpoint thì check server đang chạy.
+# Mặc định "mlx-direct" — không cần server, model nạp trực tiếp trong Python process.
+ENDPOINT=$(grep -E "^\s*endpoint:" "$BIOGLOW_DIR/config.yaml" | head -1 | awk -F': ' '{print $2}' | tr -d '" ')
+if [[ "$ENDPOINT" == http* ]]; then
+  if ! { nc -z -G 2 127.0.0.1 8080 >/dev/null 2>&1 || lsof -nP -i:8080 -sTCP:LISTEN >/dev/null 2>&1; }; then
+    echo "✗ Config dùng HTTP endpoint nhưng không có server ở $ENDPOINT" >&2
+    echo "  Bật server (terminal khác): uv tool run --from mlx-lm mlx_lm.server --model <name> --port 8080" >&2
+    echo "  Hoặc đổi endpoint trong $BIOGLOW_DIR/config.yaml thành 'mlx-direct' (nhanh hơn 40x)." >&2
+    exit 3
+  fi
 fi
 
 # Gọi vào bioglow project
 cd "$BIOGLOW_DIR"
-DRAFT_PATH=$(uv run python -m scripts.generate_blog "$SLUG" "${PASSTHROUGH[@]}" | tail -1)
+# Safe-expand mảng có thể rỗng dưới `set -u` (nếu rỗng thì không tạo arg "")
+DRAFT_PATH=$(uv run python -m scripts.generate_blog "$SLUG" ${PASSTHROUGH[@]+"${PASSTHROUGH[@]}"} | tail -1)
 
 if [ -z "$DRAFT_PATH" ] || [ ! -f "$DRAFT_PATH" ]; then
   echo "" >&2
