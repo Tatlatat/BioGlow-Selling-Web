@@ -92,6 +92,21 @@ export const metadata: Metadata = {
   formatDetection: {
     telephone: true,
   },
+  appleWebApp: {
+    title: siteConfig.name,
+    capable: true,
+    statusBarStyle: "default",
+  },
+  icons: {
+    icon: [
+      { url: "/icon.png", sizes: "512x512", type: "image/png" },
+      { url: "/icon-192.png", sizes: "192x192", type: "image/png" },
+    ],
+    apple: [
+      { url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" },
+    ],
+    shortcut: "/favicon.ico",
+  },
 };
 
 export default function RootLayout({
