@@ -5,6 +5,7 @@ import { Minus, Phone, Plus, ShoppingBag } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ZaloIcon } from "@/components/zalo-icon";
 import { OrderFormModal } from "@/components/order-form-modal";
+import { WishlistButton } from "@/components/wishlist-button";
 import { siteConfig } from "@/data/site-config";
 import {
   buildOrderRefCode,
@@ -90,6 +91,8 @@ export function ProductOrderActions({
             </a>
           </Button>
         </div>
+
+        <WishlistButton slug={productSlug} variant="pdp" className="self-start" />
 
         <a
           href={zaloUrl}

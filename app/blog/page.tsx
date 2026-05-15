@@ -20,7 +20,14 @@ export const metadata: Metadata = {
     "review TPCN",
     siteConfig.name,
   ],
-  alternates: { canonical: "/blog" },
+  alternates: {
+    canonical: "/blog",
+    types: {
+      "application/rss+xml": [
+        { url: "/blog/feed.xml", title: `${siteConfig.name} — Blog RSS` },
+      ],
+    },
+  },
   openGraph: {
     type: "website",
     locale: "vi_VN",

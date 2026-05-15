@@ -7,6 +7,7 @@ import { Menu, X, Phone } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ZaloIcon } from "@/components/zalo-icon";
 import { SiteSearch } from "@/components/site-search";
+import { WishlistCounter } from "@/components/wishlist-counter";
 import { siteConfig } from "@/data/site-config";
 import { buildTelLink, buildZaloOrderLink, cn } from "@/lib/utils";
 
@@ -56,6 +57,7 @@ export function Header(): React.ReactElement {
 
         <div className="hidden lg:flex items-center gap-2">
           <SiteSearch />
+          <WishlistCounter />
           <Button variant="ghost" size="sm" asChild>
             <a href={telUrl} className="text-brand-700">
               <Phone className="h-4 w-4" />
@@ -72,6 +74,7 @@ export function Header(): React.ReactElement {
 
         <div className="flex items-center gap-1 lg:hidden">
           <SiteSearch />
+          <WishlistCounter />
           <button
             type="button"
             aria-label={open ? "Đóng menu" : "Mở menu"}

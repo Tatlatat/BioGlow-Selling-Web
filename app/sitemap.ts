@@ -14,6 +14,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${base}/`, lastModified: now, changeFrequency: "weekly", priority: 1 },
     { url: `${base}/san-pham`, lastModified: now, changeFrequency: "weekly", priority: 0.9 },
     { url: `${base}/blog`, lastModified: now, changeFrequency: "weekly", priority: 0.7 },
+    { url: `${base}/blog/feed.xml`, lastModified: now, changeFrequency: "weekly", priority: 0.4 },
     { url: `${base}/cau-hoi-thuong-gap`, lastModified: now, changeFrequency: "monthly", priority: 0.6 },
     { url: `${base}/ve-bioglowvn`, lastModified: now, changeFrequency: "yearly", priority: 0.5 },
     { url: `${base}/lien-he`, lastModified: now, changeFrequency: "yearly", priority: 0.5 },

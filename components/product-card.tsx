@@ -2,6 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { ImageOff, Check } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
+import { WishlistButton } from "@/components/wishlist-button";
 import { getCategory } from "@/data/categories";
 import { type Product } from "@/data/products";
 import { formatPriceVND } from "@/lib/utils";
@@ -15,75 +16,80 @@ export function ProductCard({ product }: Props): React.ReactElement {
   const primaryImage = product.images[0];
 
   return (
-    <Link
-      href={`/san-pham/${product.slug}`}
-      className="group flex flex-col overflow-hidden rounded-xl border border-brand-100 bg-white shadow-card transition hover:-translate-y-0.5 hover:shadow-card-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-600"
-    >
-      <div className="relative aspect-[4/3] w-full bg-brand-50 select-none [-webkit-user-select:none] [-webkit-touch-callout:none] [-webkit-user-drag:none]">
-        {primaryImage ? (
-          <Image
-            src={primaryImage}
-            alt={product.name}
-            fill
-            sizes="(min-width: 1024px) 25vw, (min-width: 640px) 33vw, 100vw"
-            quality={70}
-            draggable={false}
-            className="pointer-events-none object-cover transition-transform duration-300 group-hover:scale-105"
-          />
-        ) : (
-          <div className="flex h-full w-full flex-col items-center justify-center gap-2 text-brand-200">
-            <ImageOff className="h-10 w-10" />
-            <span className="text-xs">Ảnh đang cập nhật</span>
-          </div>
-        )}
-        <Badge variant="leaf" className="absolute left-3 top-3">
-          {category.shortName}
-        </Badge>
-        {product.bestseller && (
-          <Badge
-            variant="warm"
-            className="absolute right-3 top-3 bg-warm-red text-white border-warm-red shadow-sm"
-          >
-            Bán chạy
-          </Badge>
-        )}
-      </div>
+    <div className="group relative flex flex-col overflow-hidden rounded-xl border border-brand-100 bg-white shadow-card transition hover:-translate-y-0.5 hover:shadow-card-hover focus-within:ring-2 focus-within:ring-brand-600">
+      {/* Wishlist button — outside Link (avoid <button> nested in <a>) */}
+      <WishlistButton slug={product.slug} variant="card" />
 
-      <div className="flex flex-1 flex-col p-4">
-        <h3 className="text-lg font-semibold text-brand-900 group-hover:text-warm-red">
-          {product.name}
-        </h3>
-        <p className="mt-1 text-sm text-ink-muted">{product.subtitle}</p>
-        {product.benefits && product.benefits.length > 0 ? (
-          <ul className="mt-3 space-y-1.5">
-            {product.benefits.slice(0, 3).map((benefit) => (
-              <li
-                key={benefit}
-                className="flex items-start gap-1.5 text-sm text-ink"
-              >
-                <Check className="mt-0.5 h-4 w-4 shrink-0 text-leaf-600" />
-                <span className="leading-snug">{benefit}</span>
-              </li>
-            ))}
-          </ul>
-        ) : (
-          <p className="mt-2 text-sm text-ink line-clamp-2">
-            {product.shortDesc}
-          </p>
-        )}
-        <div className="mt-auto pt-3 flex items-center justify-between">
-          {product.price !== null ? (
-            <span className="font-semibold text-warm-red text-lg">
-              {formatPriceVND(product.price)}
-            </span>
+      <Link
+        href={`/san-pham/${product.slug}`}
+        className="flex flex-col focus:outline-none"
+      >
+        <div className="relative aspect-[4/3] w-full bg-brand-50 select-none [-webkit-user-select:none] [-webkit-touch-callout:none] [-webkit-user-drag:none]">
+          {primaryImage ? (
+            <Image
+              src={primaryImage}
+              alt={product.name}
+              fill
+              sizes="(min-width: 1024px) 25vw, (min-width: 640px) 33vw, 100vw"
+              quality={70}
+              draggable={false}
+              className="pointer-events-none object-cover transition-transform duration-300 group-hover:scale-105"
+            />
           ) : (
-            <span className="text-sm text-ink-muted">Liên hệ</span>
+            <div className="flex h-full w-full flex-col items-center justify-center gap-2 text-brand-200">
+              <ImageOff className="h-10 w-10" />
+              <span className="text-xs">Ảnh đang cập nhật</span>
+            </div>
           )}
-          <span className="text-sm font-medium text-brand-700 group-hover:translate-x-0.5 transition-transform">
-            Xem chi tiết →
-          </span>
+          <Badge variant="leaf" className="absolute left-3 top-3">
+            {category.shortName}
+          </Badge>
+          {product.bestseller && (
+            <Badge
+              variant="warm"
+              className="absolute left-3 top-12 bg-warm-red text-white border-warm-red shadow-sm"
+            >
+              Bán chạy
+            </Badge>
+          )}
         </div>
-      </div>
-    </Link>
+
+        <div className="flex flex-1 flex-col p-4">
+          <h3 className="text-lg font-semibold text-brand-900 group-hover:text-warm-red">
+            {product.name}
+          </h3>
+          <p className="mt-1 text-sm text-ink-muted">{product.subtitle}</p>
+          {product.benefits && product.benefits.length > 0 ? (
+            <ul className="mt-3 space-y-1.5">
+              {product.benefits.slice(0, 3).map((benefit) => (
+                <li
+                  key={benefit}
+                  className="flex items-start gap-1.5 text-sm text-ink"
+                >
+                  <Check className="mt-0.5 h-4 w-4 shrink-0 text-leaf-600" />
+                  <span className="leading-snug">{benefit}</span>
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <p className="mt-2 text-sm text-ink line-clamp-2">
+              {product.shortDesc}
+            </p>
+          )}
+          <div className="mt-auto pt-3 flex items-center justify-between">
+            {product.price !== null ? (
+              <span className="font-semibold text-warm-red text-lg">
+                {formatPriceVND(product.price)}
+              </span>
+            ) : (
+              <span className="text-sm text-ink-muted">Liên hệ</span>
+            )}
+            <span className="text-sm font-medium text-brand-700 group-hover:translate-x-0.5 transition-transform">
+              Xem chi tiết →
+            </span>
+          </div>
+        </div>
+      </Link>
+    </div>
   );
 }
