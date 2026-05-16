@@ -52,9 +52,6 @@ export default function HomePage(): React.ReactElement {
         </div>
       </section>
 
-      {/* 1b. USP / TRUST BAR */}
-      <UspBar />
-
       {/* 2. 3 ĐỐI TƯỢNG */}
       <section className="section bg-white">
         <div className="container-tight">
@@ -190,6 +187,9 @@ export default function HomePage(): React.ReactElement {
           </div>
         </div>
       </section>
+
+      {/* 8. USP / TRUST BAR — đặt cuối để gia cố trust trước khi rời trang */}
+      <UspBar />
     </div>
   );
 }
