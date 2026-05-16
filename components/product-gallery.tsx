@@ -25,10 +25,13 @@ function useContentProtection(): boolean {
     };
 
     const checkDevtools = (): void => {
-      const widthDiff = window.outerWidth - window.innerWidth;
-      const heightDiff = window.outerHeight - window.innerHeight;
-      const threshold = 160;
-      const open = widthDiff > threshold || heightDiff > threshold;
+      const ow = window.outerWidth;
+      const oh = window.outerHeight;
+      if (ow < 200 || oh < 200) return;
+      const wRatio = window.innerWidth / ow;
+      const hRatio = window.innerHeight / oh;
+      const RATIO_THRESHOLD = 0.6;
+      const open = wRatio < RATIO_THRESHOLD || hRatio < RATIO_THRESHOLD;
       setBlurred((prev) => (open ? true : prev && flashTimer ? prev : false));
     };
 

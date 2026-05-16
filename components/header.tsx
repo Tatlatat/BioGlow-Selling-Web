@@ -104,20 +104,6 @@ export function Header(): React.ReactElement {
               {link.label}
             </Link>
           ))}
-          <div className="mt-2 flex gap-2">
-            <Button variant="outline" size="sm" asChild className="flex-1">
-              <a href={telUrl}>
-                <Phone className="h-4 w-4" />
-                Gọi điện
-              </a>
-            </Button>
-            <Button variant="warm" size="sm" asChild className="flex-1">
-              <a href={zaloUrl} target="_blank" rel="noopener noreferrer">
-                <ZaloIcon className="h-4 w-4" />
-                Zalo
-              </a>
-            </Button>
-          </div>
         </div>
       </div>
     </header>

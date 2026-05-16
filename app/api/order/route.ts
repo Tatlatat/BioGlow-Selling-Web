@@ -1,7 +1,18 @@
 import { NextResponse } from "next/server";
+import { getProductBySlug } from "@/data/products";
+import {
+  getClientIp,
+  isSameOrigin,
+  rateLimit,
+  sanitizeLine,
+} from "@/lib/api-guards";
 
 const TG_BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN;
 const TG_CHAT_ID = process.env.TELEGRAM_CHAT_ID;
+
+const MAX_QTY = 99;
+const RATE_LIMIT = 5;
+const RATE_WINDOW_MS = 60_000;
 
 type OrderInput = {
   productName?: string;
@@ -16,6 +27,22 @@ type OrderInput = {
 };
 
 export async function POST(req: Request): Promise<NextResponse> {
+  if (!isSameOrigin(req)) {
+    return NextResponse.json({ error: "forbidden" }, { status: 403 });
+  }
+
+  const ip = getClientIp(req);
+  const limit = rateLimit(`order:${ip}`, RATE_LIMIT, RATE_WINDOW_MS);
+  if (!limit.ok) {
+    return NextResponse.json(
+      { error: "rate_limited" },
+      {
+        status: 429,
+        headers: { "retry-after": String(limit.retryAfterSec) },
+      },
+    );
+  }
+
   if (!TG_BOT_TOKEN || !TG_CHAT_ID) {
     return NextResponse.json({ error: "missing_config" }, { status: 500 });
   }
@@ -35,10 +62,7 @@ export async function POST(req: Request): Promise<NextResponse> {
   const name = body.customerName?.trim();
   const phone = body.phone?.trim();
   const address = body.address?.trim();
-  const productName = body.productName?.trim();
-  const qty = Number(body.qty) > 0 ? Number(body.qty) : 1;
-
-  if (!name || !phone || !address || !productName) {
+  if (!name || !phone || !address) {
     return NextResponse.json({ error: "missing_fields" }, { status: 400 });
   }
 
@@ -50,17 +74,36 @@ export async function POST(req: Request): Promise<NextResponse> {
     return NextResponse.json({ error: "too_long" }, { status: 400 });
   }
 
+  const productSlug = body.productSlug?.trim();
+  if (!productSlug) {
+    return NextResponse.json({ error: "missing_product" }, { status: 400 });
+  }
+  const product = getProductBySlug(productSlug);
+  if (!product) {
+    return NextResponse.json({ error: "unknown_product" }, { status: 400 });
+  }
+  const productName = product.name;
+
+  const qtyRaw = Number(body.qty);
+  const qty = Number.isFinite(qtyRaw) && qtyRaw > 0 ? Math.min(Math.floor(qtyRaw), MAX_QTY) : 1;
+
+  const safeName = sanitizeLine(name, 100);
+  const safePhone = sanitizeLine(phone, 20);
+  const safeAddress = sanitizeLine(address, 500);
+  const safeNote = body.note ? sanitizeLine(body.note, 500) : "";
+  const safeRefCode = body.refCode ? sanitizeLine(body.refCode, 64) : "";
+
   const text = [
     "🔔 ĐƠN HÀNG MỚI — BioGlowVN",
     "",
     `📦 Sản phẩm: ${productName} × ${qty}`,
-    body.productSlug ? `🔖 Mã SP: ${body.productSlug}` : null,
-    body.refCode ? `🆔 Mã đơn: ${body.refCode}` : null,
+    `🔖 Mã SP: ${product.slug}`,
+    safeRefCode ? `🆔 Mã đơn: ${safeRefCode}` : null,
     "",
-    `👤 Họ tên: ${name}`,
-    `📱 SĐT: ${phone}`,
-    `📍 Địa chỉ: ${address}`,
-    body.note?.trim() ? `📝 Ghi chú: ${body.note.trim()}` : null,
+    `👤 Họ tên: ${safeName}`,
+    `📱 SĐT: ${safePhone}`,
+    `📍 Địa chỉ: ${safeAddress}`,
+    safeNote ? `📝 Ghi chú: ${safeNote}` : null,
     "",
     `🕐 ${new Date().toLocaleString("vi-VN", { timeZone: "Asia/Ho_Chi_Minh" })}`,
   ]

@@ -1,7 +1,18 @@
 import { NextResponse } from "next/server";
+import { getProductBySlug } from "@/data/products";
+import {
+  getClientIp,
+  isSameOrigin,
+  rateLimit,
+  sanitizeLine,
+} from "@/lib/api-guards";
 
 const TG_BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN;
 const TG_CHAT_ID = process.env.TELEGRAM_CHAT_ID;
+
+const MAX_QTY = 99;
+const RATE_LIMIT = 10;
+const RATE_WINDOW_MS = 60_000;
 
 type LeadInput = {
   productName?: string;
@@ -16,6 +27,16 @@ type LeadInput = {
 };
 
 export async function POST(req: Request): Promise<NextResponse> {
+  if (!isSameOrigin(req)) {
+    return NextResponse.json({ ok: true });
+  }
+
+  const ip = getClientIp(req);
+  const limit = rateLimit(`lead:${ip}`, RATE_LIMIT, RATE_WINDOW_MS);
+  if (!limit.ok) {
+    return NextResponse.json({ ok: true });
+  }
+
   if (!TG_BOT_TOKEN || !TG_CHAT_ID) {
     return NextResponse.json({ ok: true });
   }
@@ -40,21 +61,43 @@ export async function POST(req: Request): Promise<NextResponse> {
     return NextResponse.json({ ok: true });
   }
 
-  const phoneDigits = phone.replace(/\D/g, "");
+  if (name.length > 100 || address.length > 500 || note.length > 500) {
+    return NextResponse.json({ ok: true });
+  }
+
+  const safeName = sanitizeLine(name, 100);
+  const safePhone = sanitizeLine(phone, 20);
+  const safeAddress = sanitizeLine(address, 500);
+  const safeNote = sanitizeLine(note, 500);
+  const safeRefCode = body.refCode ? sanitizeLine(body.refCode, 64) : "";
+
+  const phoneDigits = safePhone.replace(/\D/g, "");
   const phoneValid =
-    phoneDigits.length >= 9 && phoneDigits.length <= 11 ? phone : `${phone} (chưa đủ số)`;
+    phoneDigits.length >= 9 && phoneDigits.length <= 11
+      ? safePhone
+      : `${safePhone} (chưa đủ số)`;
+
+  const productSlug = body.productSlug?.trim();
+  const product = productSlug ? getProductBySlug(productSlug) : undefined;
+  const productName = product?.name;
+
+  const qtyRaw = Number(body.qty);
+  const qty =
+    Number.isFinite(qtyRaw) && qtyRaw > 0
+      ? Math.min(Math.floor(qtyRaw), MAX_QTY)
+      : 1;
 
   const text = [
     "⚠️ KHÁCH BỎ DỞ ĐƠN — BioGlowVN",
     "",
-    body.productName ? `📦 Sản phẩm đang xem: ${body.productName} × ${body.qty ?? 1}` : null,
-    body.productSlug ? `🔖 Mã SP: ${body.productSlug}` : null,
-    body.refCode ? `🆔 Mã tham chiếu: ${body.refCode}` : null,
+    productName ? `📦 Sản phẩm đang xem: ${productName} × ${qty}` : null,
+    product ? `🔖 Mã SP: ${product.slug}` : null,
+    safeRefCode ? `🆔 Mã tham chiếu: ${safeRefCode}` : null,
     "",
-    name ? `👤 Họ tên: ${name}` : "👤 Họ tên: (chưa điền)",
-    phone ? `📱 SĐT: ${phoneValid}` : "📱 SĐT: (chưa điền)",
-    address ? `📍 Địa chỉ: ${address}` : null,
-    note ? `📝 Ghi chú: ${note}` : null,
+    safeName ? `👤 Họ tên: ${safeName}` : "👤 Họ tên: (chưa điền)",
+    safePhone ? `📱 SĐT: ${phoneValid}` : "📱 SĐT: (chưa điền)",
+    safeAddress ? `📍 Địa chỉ: ${safeAddress}` : null,
+    safeNote ? `📝 Ghi chú: ${safeNote}` : null,
     "",
     "👉 Gọi lại sớm trong 5 phút để chốt đơn.",
     `🕐 ${new Date().toLocaleString("vi-VN", { timeZone: "Asia/Ho_Chi_Minh" })}`,
